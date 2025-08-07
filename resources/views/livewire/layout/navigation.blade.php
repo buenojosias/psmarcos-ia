@@ -27,6 +27,7 @@ $logout = function (Logout $logout) {
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">Home</x-nav-link>
                     <x-nav-link :href="route('communities.index')" :active="request()->routeIs('communities*')">Comunidades</x-nav-link>
                     <x-nav-link :href="route('pastorals.index')" :active="request()->routeIs('pastorals*')">GMP</x-nav-link>
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users*')">Usuários</x-nav-link>
                 </div>
             </div>
 
@@ -74,6 +75,7 @@ $logout = function (Logout $logout) {
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">Home</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('communities.index')" :active="request()->routeIs('communities*')">Comunidades</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('pastorals.index')" :active="request()->routeIs('pastorals*')">GMP</x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users*')">Usuários</x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->

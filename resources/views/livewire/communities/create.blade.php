@@ -16,7 +16,6 @@
     <script>
         $wire.on('saved', () => {
             $modalClose('create-community-modal');
-            console.log('Modal close');
         });
     </script>
 @endscript

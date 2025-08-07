@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('pastorals', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('community_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
             $table->string('slug')->unique();
