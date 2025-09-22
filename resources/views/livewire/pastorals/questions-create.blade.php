@@ -1,11 +1,11 @@
-<x-ts-card class="space-y-2" header="Adicionar perguntas" minimize>
+<x-ts-card class="space-y-2" header="Adicionar perguntas" minimize="mount">
     <x-ts-error />
     <x-ts-label class="m-2"
         label="Dica: Você pode colocar ## (duplo jogo
             da velha) no lugar do nome do grupo, movimento ou pastoral." />
-    @foreach ($questions as $index => $question)
+    @forelse ($questions as $index => $question)
         {{-- <livewire:pastorals.questions-form :pastoral="$pastoral" :question="$question" :index="$index" /> --}}
-        <div class="p-3 rounded-md bg-gray-200 flex flex-row gap-4" bordered>
+        <div class="p-3 rounded-md bg-gray-200 dark:bg-gray-800 flex flex-row gap-4" bordered>
             <div class="flex-1 space-y-2">
                 <x-ts-input label="Pergunta {{ $index + 1 }}" placeholder="Pergunta {{ $index + 1 }}"
                     wire:model="questions.{{ $index }}.question" />
@@ -18,7 +18,8 @@
                     sm />
             </div>
         </div>
-    @endforeach
+    @empty
+    @endforelse
     <x-slot:footer>
         <x-ts-button text="Adicionar pergunta" wire:click="addQuestion" sm />
         <livewire:pastorals.generate-question-suggestions :pastoral="$pastoral" />

@@ -10,7 +10,7 @@ class Index extends Component
     public function render()
     {
         $headers = [
-            ['index' => 'name', 'label' => 'Nome'],
+            ['index' => 'pastoral_name', 'label' => 'Nome'],
             ['index' => 'community.name', 'label' => 'Comunidade'],
             ['index' => 'user.name', 'label' => 'Coordenador(a)'],
             // [ 'index' => 'Q&As', 'label' => 'Q&As'],

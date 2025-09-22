@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="tallstackui_darkTheme()"
+    x-bind:class="{ 'dark bg-gray-700': darkTheme, 'bg-gray-100': !darkTheme }">
 
 <head>
     <meta charset="utf-8">
@@ -18,29 +19,40 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
-    <x-ts-toast />
-    <div class="min-h-screen bg-gray-100">
-        <livewire:layout.navigation />
+<body>
+    <x-ts-layout>
+        <x-slot:header>
+            <x-ts-layout.header>
+                <x-slot:left>
+                    <h3 class="font-semibold text-gray-800 dark:text-gray-100">{{ $title }}</h3>
+                </x-slot:left>
+                <x-slot:right>
+                    @livewire('layout.dropdown')
+                </x-slot:right>
+            </x-ts-layout.header>
+        </x-slot:header>
 
-        <!-- Page Heading -->
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ $title }}
-                </h2>
-            </div>
-        </header>
+        <x-slot:menu>
+            <x-ts-side-bar>
+                <x-slot:brand>
+                    <div class="p-2 flex space-x-4 items-center">
+                        <img src="{{ asset('img/logo.png') }}" class="h-10" />
+                        <div class="">
+                            <p class="font-semibold">Paróquia São Marcos</p>
+                            <p class="text-gray-500 text-sm">Agente de IA</p>
+                        </div>
+                    </div>
+                </x-slot:brand>
+                <x-ts-side-bar.item text="Home" icon="home" :route="route('dashboard')" :current="request()->routeIs('dashboard')" />
+                <x-ts-side-bar.item text="Comunidades" icon="building-library" :route="route('communities.index')" :current="request()->routeIs('communities.*')" />
+                <x-ts-side-bar.item text="Grupos, movimentos e pastorais" icon="user-group" :route="route('pastorals.index')"
+                    :current="request()->routeIs('pastorals.*')" />
+                <x-ts-side-bar.item text="Usuários" icon="user" :route="route('users.index')" :current="request()->routeIs('users.*')" />
+            </x-ts-side-bar>
+        </x-slot:menu>
 
-        <!-- Page Content -->
-        <main>
-            <div class="py-8">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {{ $slot }}
-                </div>
-            </div>
-        </main>
-    </div>
+        {{ $slot }}
+    </x-ts-layout>
+
+    @livewireScripts
 </body>
-
-</html>

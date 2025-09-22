@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('pastoral_questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pastoral_id')->constrained();
+            $table->foreignId('suggestion_id')->nullable()->constrained()->nullOnDelete();
             $table->string('question');
             $table->string('answer')->nullable();
             $table->enum('status', ['pending', 'processed', 'rejected'])->default('pending');

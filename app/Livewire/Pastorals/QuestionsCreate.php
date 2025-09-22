@@ -60,10 +60,6 @@ class QuestionsCreate extends Component
         $this->qa['question'] = str_replace('##', $this->pastoral->name, $this->qa['question']);
         $this->qa['answer'] = str_replace('##', $this->pastoral->name, $this->qa['answer']);
 
-        dump($this->qa);
-
-        return;
-
         $data = $this->validate([
             'qa.question' => 'required|string|max:255',
             'qa.answer' => 'required|string|max:255',
@@ -82,6 +78,6 @@ class QuestionsCreate extends Component
     public function removeQuestion($id)
     {
         unset($this->questions[array_search($id, array_column($this->questions, 'id'))]);
-        // $this->questions = array_values($this->questions);
+        $this->questions = array_values($this->questions);
     }
 }

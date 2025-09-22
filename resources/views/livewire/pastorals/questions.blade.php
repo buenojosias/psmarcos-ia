@@ -2,14 +2,14 @@
     <x-ts-card header="Perguntas e respostas (Q&A)">
         <ul class="space-y-2">
             @foreach ($this->questions as $item)
-                <li class="bg-gray-100 hover:bg-gray-200 flex flex-row p-2 rounded-md">
+                <li class="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-900 flex flex-row p-2 rounded-md">
                     <div class="pl-1 pr-2 flex items-center">
                         @if ($item['status']->value == 'pending')
                             <x-ts-checkbox wire:model="selectedQuestions" value="{{ $item['id'] }}" />
                         @endif
                     </div>
                     <div class="flex-1">
-                        <span class="font-semibold text-gray-700">{{ $item['question'] }}</span> <br>
+                        <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $item['question'] }}</span> <br>
                         {{ $item['answer'] }}
                     </div>
                     <div class="p-2 flex items-center justify-center gap-1">

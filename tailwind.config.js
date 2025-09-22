@@ -3,6 +3,7 @@ import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'class',
     presets: [
         require('./vendor/tallstackui/tallstackui/tailwind.config.js')
     ],
@@ -11,6 +12,7 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './vendor/tallstackui/tallstackui/src/**/*.php',
+        './app/Providers/*.php',
     ],
 
     theme: {

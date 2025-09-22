@@ -6,7 +6,7 @@
         <ul>
             @foreach ($suggestions as $index => $suggestion)
                 <li class="py-1 flex justify-between items-center border-b border-gray-200">
-                    <span class="text-gray-700">{{ $suggestion }}</span>
+                    <span class="text-gray-700 dark:text-gray-300">{{ $suggestion }}</span>
                     <div class="flex items-center">
                         <x-ts-button icon="plus-circle" wire:click="addSuggestion('{{ $index }}')" flat />
                         <x-ts-button icon="minus-circle" wire:click="removeSuggestion('{{ $index }}')" flat color="secundary" />
