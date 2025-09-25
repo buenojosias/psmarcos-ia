@@ -4,11 +4,13 @@ namespace App\Models;
 
 use App\Enums\QuestionStatusEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class PastoralQuestion extends Model
+class Question extends Model
 {
     protected $fillable = [
-        'pastoral_id',
+        'questionable',
         'suggestion_id',
         'question',
         'answer',
@@ -22,14 +24,13 @@ class PastoralQuestion extends Model
         ];
     }
 
-    public function pastoral()
+    public function questionable(): MorphTo
     {
-        return $this->belongsTo(Pastoral::class);
+        return $this->morphTo();
     }
 
-    public function suggestion()
+    public function suggestion(): BelongsTo
     {
         return $this->belongsTo(Suggestion::class);
     }
-
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Pastoral extends Model
 {
@@ -24,8 +25,8 @@ class Pastoral extends Model
         return $this->belongsTo(Community::class);
     }
 
-    public function questions()
+    public function questions(): MorphMany
     {
-        return $this->hasMany(PastoralQuestion::class);
+        return $this->morphMany(Question::class, 'questionable');
     }
 }

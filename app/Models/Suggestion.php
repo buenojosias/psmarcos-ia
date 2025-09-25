@@ -8,8 +8,8 @@ class Suggestion extends Model
 {
     protected $fillable = ['type', 'content', 'usages'];
 
-    public function pastoralQuestions()
+    public function questions()
     {
-        return $this->hasMany(PastoralQuestion::class);
+        return $this->hasMany(Question::class);
     }
 }

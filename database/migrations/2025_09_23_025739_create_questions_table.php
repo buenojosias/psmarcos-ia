@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('pastoral_questions', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pastoral_id')->constrained();
+            $table->morphs('questionable');
             $table->foreignId('suggestion_id')->nullable()->constrained()->nullOnDelete();
             $table->string('question');
             $table->string('answer')->nullable();
@@ -21,6 +21,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('pastoral_questions');
+        Schema::dropIfExists('questions');
     }
 };
