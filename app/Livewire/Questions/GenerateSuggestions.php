@@ -1,48 +1,41 @@
 <?php
 
-namespace App\Livewire\Pastorals;
+namespace App\Livewire\Questions;
 
-use App\Services\GeneratePastoralQuestions;
+use App\Services\GenerateAiQuestions;
 use Livewire\Component;
+use TallStackUi\Traits\Interactions;
 
-class GenerateQuestionSuggestions extends Component
+class GenerateSuggestions extends Component
 {
-    public $pastoral;
+    use Interactions;
+
+    public $resource;
+    public $model;
     public $questions = [];
     public $suggestions = [];
 
-    public function mount($pastoral)
+    public function mount($model, $resource)
     {
-        $this->pastoral = $pastoral;
+        $this->model = $model;
+        $this->resource = $resource;
     }
 
     public function render()
     {
-        return view('livewire.pastorals.generate-question-suggestions');
+        return view('livewire.questions.generate-suggestions');
     }
 
     public function generateQuestions()
     {
-        // $this->suggestions = [
-        //     0 => "Quais são os requisitos para participar do Coral Doce Canto?",
-        //     1 => "O Coral Doce Canto realiza apresentações em eventos da paróquia?",
-        //     2 => "Existe algum custo para participar do Coral Doce Canto?",
-        //     3 => "Como posso me inscrever para o Coral Doce Canto?",
-        //     4 => "O Coral Doce Canto aceita novos membros durante todo o ano?",
-        //     5 => "Quais são os compromissos de ensaio do Coral Doce Canto?",
-        //     6 => "O Coral Doce Canto tem alguma atividade especial durante o ano, como festivais ou concertos?",
-        //     7 => "Há alguma preparação específica que os membros do Coral Doce Canto devem fazer antes das apresentações?",
-        // ];
-        // return;
-
         // verificar se suggestions já foram geradas
         if (!empty($this->suggestions)) {
             return;
         }
 
-        $this->questions = $this->pastoral->questions->toArray();
+        $this->questions = $this->model->questions->toArray();
 
-        $generatedSuggestions = GeneratePastoralQuestions::generate($this->questions, $this->pastoral->name);
+        $generatedSuggestions = GenerateAiQuestions::generate($this->resource, $this->model->name, $this->model->description, $this->questions);
         if ($generatedSuggestions) {
             $content = $generatedSuggestions['choices'][0]['message']['content'] ?? [];
             $lines = explode("\n", $content);
@@ -55,6 +48,8 @@ class GenerateQuestionSuggestions extends Component
             }, $lines));
         } else {
             $this->suggestions = [];
+            $this->dispatch('closeModal')->self();
+            $this->toast()->error('Não foi possível gerar sugestões', 'Adicione uma descrição ou algumas perguntas e tente novamente.')->send();
         }
     }
 

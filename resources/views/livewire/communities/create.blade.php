@@ -2,8 +2,8 @@
     <x-ts-button text="Adicionar nova" x-on:click="$modalOpen('create-community-modal')" />
     <x-ts-modal id="create-community-modal" title="Adicionar comunidade" size="lg">
         <form id="create-community-form" wire:submit="save" class="space-y-4">
-            <x-ts-input label="Nome" wire:model="name" required />
-            <x-ts-input label="Abreviação" wire:model="alias" required />
+            <x-ts-input label="Nome *" wire:model="name" required />
+            <x-ts-input label="Abreviação *" wire:model="alias" required />
             <x-ts-input label="Endereço" wire:model="address" />
         </form>
         <x-slot name="footer">

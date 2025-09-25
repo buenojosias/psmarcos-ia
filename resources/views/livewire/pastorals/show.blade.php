@@ -1,17 +1,26 @@
-<div class="flex flex-col md:flex-row gap-4">
-    <div class="flex-1">
-        <x-ts-card header="Sobre">
-            <p class="mb-4 pb-4 border-b border-gray-200">
-                <strong>Coordenador(a)</strong><br>
-                {{ $this->pastoral->user->name ?? 'Coordenador(a) não informado(a)' }}
-            </p>
-            <p><strong>Descrição</strong><br>
+<div class="space-y-4">
+    <x-ts-card header="Sobre">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div>
+                <p class="mb-4">
+                    <strong>Coordenador(a)</strong><br>
+                    {{ $this->pastoral->user->name ?? 'Coordenador(a) não informado(a)' }}
+                </p>
+                <p>
+                    <strong>Comunidade</strong><br>
+                    {{ $this->pastoral->community->name ?? 'Comunidade não informada' }}
+                </p>
+            </div>
+            <div class="sm:col-span-2">
+                <strong>Descrição</strong><br>
                 {{ $this->pastoral->description ?? 'Descrição não disponível' }}
-            </p>
-        </x-ts-card>
-    </div>
-    <div class="w-full md:w-2/3 space-y-4">
-        <livewire:pastorals.questions :pastoral="$this->pastoral" />
-        <livewire:pastorals.questions-create :pastoral="$this->pastoral" />
+            </div>
+        </div>
+    </x-ts-card>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <x-ts-stats title="Perguntas cadastradas" :number="$this->pastoral->questions_count" :href="route('pastorals.questions', $this->pastoral)" />
+        <x-ts-stats title="Eventos" :number="100" />
+        <x-ts-stats title="Avisos" :number="100" />
     </div>
 </div>

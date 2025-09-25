@@ -18,3 +18,10 @@
         <x-ts-loading />
     </x-ts-modal>
 </div>
+@script
+<script>
+    $wire.on('closeModal', () => {
+        $modalClose('question-suggestions');
+    });
+</script>
+@endscript

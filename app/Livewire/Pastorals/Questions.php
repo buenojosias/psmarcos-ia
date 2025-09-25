@@ -2,55 +2,28 @@
 
 namespace App\Livewire\Pastorals;
 
-use App\Services\VectorizePastoralQuestions;
+use App\Models\Pastoral;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\On;
 use Livewire\Component;
-use TallStackUi\Traits\Interactions;
 
 class Questions extends Component
 {
-    use Interactions;
-
-    public $pastoral;
-    public $selectedQuestions = [];
+    public $pastoralId;
 
     public function mount($pastoral)
     {
-        $this->pastoral = $pastoral;
+        $this->pastoralId = $pastoral;
     }
 
-    #[Computed()]
-    public function getQuestionsProperty()
+    #[Computed('pastoral')]
+    public function getPastoralProperty()
     {
-        return $this->pastoral->questions()->get();
-    }
-
-    #[On('questionCreated')]
-    public function refreshQuestions()
-    {
-        $this->pastoral->load('questions');
+        return Pastoral::with('user')->findOrFail($this->pastoralId);
     }
 
     public function render()
     {
-        return view('livewire.pastorals.questions');
-    }
-
-    public function vectorize()
-    {
-        $vectorized = VectorizePastoralQuestions::handle($this->pastoral, $this->selectedQuestions);
-    }
-
-    public function deleteSelected()
-    {
-        // excluir do vetor
-        $this->pastoral->questions()
-            ->whereIn('id', $this->selectedQuestions)
-            ->delete();
-
-        $this->toast()->success('Perguntas excluídas com sucesso.')->send();
-
-        $this->selectedQuestions = [];
+        return view('livewire.pastorals.questions')
+            ->title($this->pastoral->name);
     }
 }

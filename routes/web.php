@@ -21,6 +21,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/gmp', App\Livewire\Pastorals\Index::class)->name('pastorals.index');
     Route::get('/gmp/{pastoral}', App\Livewire\Pastorals\Show::class)->name('pastorals.show');
+    Route::get('/gmp/{pastoral}/perguntas', App\Livewire\Pastorals\Questions::class)->name('pastorals.questions');
 });
 
 require __DIR__.'/auth.php';

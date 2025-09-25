@@ -20,6 +20,7 @@
 </head>
 
 <body>
+    <x-ts-toast />
     <x-ts-layout>
         <x-slot:header>
             <x-ts-layout.header>
