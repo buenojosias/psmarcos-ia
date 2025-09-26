@@ -16,6 +16,9 @@
                 {{ $this->pastoral->description ?? 'Descrição não disponível' }}
             </div>
         </div>
+        <x-slot:footer>
+            <livewire:pastorals.edit :pastoral="$this->pastoral" @saved="$refresh" />
+        </x-slot>
     </x-ts-card>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

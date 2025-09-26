@@ -39,8 +39,8 @@
                     <div class="p-2 flex space-x-4 items-center">
                         <img src="{{ asset('img/logo.png') }}" class="h-10" />
                         <div class="">
-                            <p class="font-semibold">Paróquia São Marcos</p>
-                            <p class="text-gray-500 text-sm">Agente de IA</p>
+                            <p class="font-semibold text-gray-900 dark:text-gray-200">Paróquia São Marcos</p>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">Agente de IA</p>
                         </div>
                     </div>
                 </x-slot:brand>

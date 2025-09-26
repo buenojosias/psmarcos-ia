@@ -2,7 +2,6 @@
     <x-ts-button text="Gerar perguntas com IA" x-on:click="$modalOpen('question-suggestions')" icon="sparkles" sm />
     <x-ts-modal title="Sugestões de perguntas" id="question-suggestions" max-width="2xl"
         x-on:open="$wire.generateQuestions()">
-
         <ul>
             @foreach ($suggestions as $index => $suggestion)
                 <li class="py-1 flex justify-between items-center border-b border-gray-200">
@@ -14,7 +13,6 @@
                 </li>
             @endforeach
         </ul>
-
         <x-ts-loading />
     </x-ts-modal>
 </div>

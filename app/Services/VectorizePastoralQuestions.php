@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\PastoralQuestion;
+use App\Models\Question;
 use Illuminate\Support\Facades\Http;
 
 class VectorizePastoralQuestions
 {
     static public function handle($pastoral, $questions)
     {
-        $questions = PastoralQuestion::select('id', 'question', 'answer')->whereIn('id', $questions)->get();
+        $questions = Question::select('id', 'question', 'answer')->whereIn('id', $questions)->get();
 
         $batchPayload = $questions->map(function ($question) use ($pastoral) {
             return [

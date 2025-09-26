@@ -23,7 +23,7 @@ new class extends Component {
 
 <x-ts-dropdown>
     <x-slot:action>
-        <x-ts-button.circle :text="auth()->user()->name[0]" x-on:click="show = !show" color="gray" md />
+        <x-ts-button.circle :text="auth()->user()->name[0]" x-on:click="show = !show" md />
     </x-slot:action>
     <x-slot:header>
         <p class="px-2 text-sm text-gray-700 dark:text-gray-100 font-semibold">{{ auth()->user()->name }}</p>

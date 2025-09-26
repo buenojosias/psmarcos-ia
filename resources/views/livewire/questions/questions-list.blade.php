@@ -1,7 +1,7 @@
 <div>
     <x-ts-card header="Perguntas e respostas (Q&A)">
         <ul class="space-y-2">
-            @foreach ($this->questions as $item)
+            @forelse ($this->questions as $item)
                 <li class="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-900 flex flex-row p-2 rounded-md">
                     <div class="pl-1 pr-2 flex items-center">
                         @if ($item['status']->value == 'pending')
@@ -20,11 +20,13 @@
                         </x-ts-dropdown>
                     </div>
                 </li>
-            @endforeach
+            @empty
+                <li class="text-center text-gray-500 dark:text-gray-400">Nenhuma pergunta cadastrada.</li>
+            @endforelse
         </ul>
         <x-slot:footer>
             <x-ts-button wire:click="vectorize" text="Treinar agente" sm />
-            <x-ts-button wire:click="deleteSelected" text="Excluir selecionadas" color="red" flat sm />
+            <x-ts-button wire:click="deleteSelected" text="Excluir selecionadas" color="red" sm />
         </x-slot>
     </x-ts-card>
 </div>
