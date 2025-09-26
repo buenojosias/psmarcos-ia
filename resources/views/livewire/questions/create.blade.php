@@ -1,4 +1,4 @@
-<x-ts-card class="space-y-2" header="Adicionar perguntas">
+<x-ts-card class="space-y-3" header="Adicionar perguntas">
     <x-ts-error />
     <x-ts-label class="m-2"
         label="Dica: Você pode colocar ## (duplo jogo

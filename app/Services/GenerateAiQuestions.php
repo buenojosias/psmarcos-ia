@@ -12,7 +12,7 @@ class GenerateAiQuestions
             return null;
         }
 
-        if (!empty($questions)) {
+        if (!empty($questions) && count($questions) >= 3) {
             return self::generateFromQuestions($resource, $name, $questions);
         } else {
             return self::generateFromDescription($resource, $name, $description);

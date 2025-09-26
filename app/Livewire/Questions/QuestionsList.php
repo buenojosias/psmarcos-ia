@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Questions;
 
-use App\Services\VectorizePastoralQuestions;
+use App\Services\DeleteQuestionService;
+use App\Services\VectorizeQuestionService;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -12,11 +13,14 @@ class QuestionsList extends Component
 {
     use Interactions;
 
+    public $resource;
     public $model;
     public $selectedQuestions = [];
+    public $vectorizing = false;
 
-    public function mount($model)
+    public function mount($resource, $model)
     {
+        $this->resource = $resource;
         $this->model = $model;
     }
 
@@ -39,11 +43,48 @@ class QuestionsList extends Component
 
     public function vectorize()
     {
-        $vectorized = VectorizePastoralQuestions::handle($this->model, $this->selectedQuestions);
+        if (count($this->selectedQuestions) == 0) {
+            $this->toast()->warning('Nenhuma pergunta selecionada', 'Selecione pelo menos uma pergunta para treinar o agente.')->send();
+            return;
+        }
+
+        $this->vectorizing = true;
+
+        foreach ($this->selectedQuestions as $questionId) {
+            $question = $this->model->questions()->where('id', $questionId)->first();
+
+            if (!$question) {
+                return;
+            }
+            if (VectorizeQuestionService::vectorize($this->resource, $this->model, $question)) {
+                $question->status = 'processed';
+                $question->save();
+                $this->selectedQuestions = array_diff($this->selectedQuestions, [$questionId]);
+            }
+        }
+
+        $this->vectorizing = false;
+    }
+
+    public function delete($questionId)
+    {
+        // fazer confirmação
+
+        if (DeleteQuestionService::execute((int) $questionId)) {
+            // $this->refreshQuestions();
+            $this->toast()->success('Pergunta excluída com sucesso.')->send();
+        } else {
+            $this->toast()->error('Erro ao excluir a pergunta.')->send();
+        }
     }
 
     public function deleteSelected()
     {
+        if (count($this->selectedQuestions) == 0) {
+            $this->toast()->warning('Nenhuma pergunta selecionada', 'Selecione pelo menos uma pergunta para excluir.')->send();
+            return;
+        }
+
         $this->model->questions()
             ->whereIn('id', $this->selectedQuestions)
             ->delete();
