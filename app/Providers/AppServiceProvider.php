@@ -18,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             'community' => \App\Models\Community::class,
             'pastoral' => \App\Models\Pastoral::class,
+            'event' => \App\Models\Event::class,
         ]);
 
         TallStackUi::personalize()

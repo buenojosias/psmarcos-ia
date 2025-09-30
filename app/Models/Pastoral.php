@@ -29,4 +29,9 @@ class Pastoral extends Model
     {
         return $this->morphMany(Question::class, 'questionable');
     }
+
+    public function events(): MorphMany
+    {
+        return $this->morphMany(Event::class, 'eventable');
+    }
 }

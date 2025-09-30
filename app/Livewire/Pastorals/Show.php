@@ -20,13 +20,13 @@ class Show extends Component
     {
         return Pastoral::query()
             ->with('user')
-            ->withCount('questions')
+            ->withCount(['questions', 'events'])
             ->findOrFail($this->pastoralId);
     }
 
     public function render()
     {
         return view('livewire.pastorals.show')
-            ->title($this->pastoral->name);
+            ->title('Grupos, movimentos e pastorais');
     }
 }

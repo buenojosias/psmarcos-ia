@@ -64,9 +64,9 @@ class Edit extends Component
         }
         $data['slug'] = Str::slug($data['name'], '_');
 
-        $pastoral = Pastoral::findOrFail($this->pastoral->id)->update($data);
+        // $pastoral = Pastoral::findOrFail($this->pastoral->id)->update($data);
 
-        if ($pastoral) {
+        if ($this->pastoral->update($data)) {
             $this->toast()->success('Alterações salvas com sucesso!')->send();
             $this->dispatch('saved');
         }

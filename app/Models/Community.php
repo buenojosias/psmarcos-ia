@@ -16,4 +16,9 @@ class Community extends Model
     {
         return $this->hasMany(Pastoral::class);
     }
+
+    public function events()
+    {
+        return $this->morphMany(Event::class, 'eventable');
+    }
 }

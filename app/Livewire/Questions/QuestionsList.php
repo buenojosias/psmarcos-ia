@@ -48,8 +48,6 @@ class QuestionsList extends Component
             return;
         }
 
-        $this->vectorizing = true;
-
         foreach ($this->selectedQuestions as $questionId) {
             $question = $this->model->questions()->where('id', $questionId)->first();
 
@@ -60,10 +58,9 @@ class QuestionsList extends Component
                 $question->status = 'processed';
                 $question->save();
                 $this->selectedQuestions = array_diff($this->selectedQuestions, [$questionId]);
+                $this->vectorizing = false;
             }
         }
-
-        $this->vectorizing = false;
     }
 
     public function delete($questionId)
@@ -71,7 +68,6 @@ class QuestionsList extends Component
         // fazer confirmação
 
         if (DeleteQuestionService::execute((int) $questionId)) {
-            // $this->refreshQuestions();
             $this->toast()->success('Pergunta excluída com sucesso.')->send();
         } else {
             $this->toast()->error('Erro ao excluir a pergunta.')->send();

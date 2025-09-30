@@ -17,11 +17,21 @@
             </div>
         </div>
         <div class="w-full sm:w-1/2">
-            <x-ts-card header="Grupos, movimentos e pastorais">
+            <div class="space-y-4">
+                <x-ts-card header="Grupos, movimentos e pastorais">
 
-                <x-slot:footer>
-                    <x-ts-button text="Gerenciar grupos" href="#" sm />
-                </x-slot>
-            </x-ts-card>
+                    <x-slot:footer>
+                        <x-ts-button text="Gerenciar grupos" href="#" sm />
+                    </x-slot>
+                </x-ts-card>
+
+                <x-ts-card header="Eventos">
+
+                    <x-slot:footer>
+                        <x-ts-button text="Gerenciar eventos" href="#" sm />
+                    </x-slot>
+                </x-ts-card>
+
+            </div>
         </div>
     </div>

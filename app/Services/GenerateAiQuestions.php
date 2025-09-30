@@ -96,6 +96,7 @@ class GenerateAiQuestions
             Com base na descrição acima, gere entre **4 e 8 novas perguntas relevantes** que um fiel possa fazer sobre o(a) {$resource} "{$name}".
 
             **Instruções:**
+            - Crie as primeiras perguntas extraindo o conteúdo da descrição fornecida.
             - Escreva perguntas claras, objetivas e com linguagem acessível.
             - Sempre inclua o nome completo do(a) {$resource} "{$name}" em cada pergunta.
             - Foque em dúvidas práticas, como {$questionRuleExamples} entre outras perguntas relevantes para o(a) {$resource}.
