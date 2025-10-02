@@ -43,11 +43,17 @@ class QuestionsList extends Component
 
     public function vectorize()
     {
+        $this->vectorizing = true;
         if (count($this->selectedQuestions) == 0) {
             $this->toast()->warning('Nenhuma pergunta selecionada', 'Selecione pelo menos uma pergunta para treinar o agente.')->send();
             return;
         }
+        $this->dispatch('vectorizationStarted')->self();
+    }
 
+    #[On('vectorizationStarted')]
+    public function startVectorization()
+    {
         foreach ($this->selectedQuestions as $questionId) {
             $question = $this->model->questions()->where('id', $questionId)->first();
 
@@ -61,6 +67,8 @@ class QuestionsList extends Component
                 $this->vectorizing = false;
             }
         }
+        $this->vectorizing = false;
+        $this->toast()->success('Treinamento concluído com sucesso.')->send();
     }
 
     public function delete($questionId)

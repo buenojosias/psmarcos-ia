@@ -15,7 +15,7 @@ class VectorizeQuestionService
             // return [
                 $batchPayload['resource'] = $resource;
                 $batchPayload['name'] = $model['slug'];
-                $batchPayload['question_id'] = $question['id'];
+                $batchPayload['model_id'] = $question['id'];
                 $batchPayload['question'] = $question['question'];
                 $batchPayload['answer'] = $question['answer'];
                 $batchPayload['text'] = "**Pergunta:** {$question['question']}**\n**Resposta:** {$question['answer']}";

@@ -3,115 +3,269 @@
 namespace App\Services;
 
 use Carbon\Carbon;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use OpenAI;
-use Illuminate\Support\Facades\Http;
+use OpenAI\Client as OpenAIClient;
 
 class VectorizeAndStoreService
 {
-    static public function vectorizeAndStore($item)
-    {
-        $openaiApiKey = env('OPENAI_API_KEY', 'YOUR_OPENAI_API_KEY_HERE');
-        $client = OpenAI::client($openaiApiKey);
+    protected static ?OpenAIClient $client = null;
+    protected const EMBEDDING_MODEL = 'text-embedding-3-small';
+    protected const EMBEDDING_DIMENSIONS = 1536;
+    protected const MAX_TOKENS = 8191; // Limite do modelo
+    protected const CONNECTION = 'pgsql';
 
-        if ($embedding = self::generateEmbedding($client, $item['text'])) {
-            return self::upsertPayload([
-                'resource' => $item['resource'],
-                'name' => $item['name'],
-                'question_id' => $item['question_id'],
-                'question' => $item['question'],
-                'answer' => $item['answer'],
-                'content' => $item['text'],
-                'embedding' => $embedding,
-                'metadata' => [
+    // Inicializa ou retorna client OpenAI singleton
+    protected static function getClient(): OpenAIClient
+    {
+        if (self::$client === null) {
+            $apiKey = config('services.openai.api_key') ?? env('OPENAI_API_KEY');
+
+            if (empty($apiKey)) {
+                throw new \RuntimeException('OpenAI API key não configurada');
+            }
+
+            self::$client = OpenAI::client($apiKey);
+        }
+
+        return self::$client;
+    }
+
+    // Vetoriza e armazena documento no banco vetorial
+    public static function vectorizeAndStore(array $item): bool|int
+    {
+        try {
+            // Validações
+            self::validateInput($item);
+
+            // Gerar embedding
+            $embedding = self::generateEmbedding($item['text']);
+
+            if (!$embedding) {
+                Log::error('Falha ao gerar embedding', [
                     'resource' => $item['resource'],
-                    $item['resource'] . '_name' => $item['name'],
-                    'source' => 'blob',
-                    'blobType' => 'text/plain',
-                    'question_id' => $item['question_id'],
-                    'created_at' => Carbon::now()->toDateTimeString(),
-                ],
-                'version' => 1,
+                    'model_id' => $item['question_id'] ?? null,
+                ]);
+                return false;
+            }
+
+            // Preparar payload para upsert
+            $payload = self::preparePayload($item, $embedding);
+
+            // Executar upsert
+            return self::upsertPayload($payload);
+
+        } catch (\Exception $e) {
+            Log::error('Erro em vectorizeAndStore', [
+                'message' => $e->getMessage(),
+                'item' => $item,
+                'trace' => $e->getTraceAsString(),
             ]);
-        } else {
             return false;
         }
     }
 
-    static public function upsertPayload(array $payload)
+    // Valida dados de entrada
+    protected static function validateInput(array $item): void
     {
-        // Normaliza/valida entradas mínimas
-        $resource = $payload['resource'] ?? null;
-        $name = $payload['name'] ?? null;
-        $questionId = $payload['question_id'] ?? null;
-        $question = $payload['question'] ?? '';
-        $answer = $payload['answer'] ?? '';
-        $content = $payload['content'] ?? '';
-        $embeddingArr = $payload['embedding'] ?? null;   // pode ser array ou null
-        $metadataArr = $payload['metadata'] ?? [];
-
-        // Converte embedding array -> string "[0.1,0.2,...]" ou null
-        $embeddingSql = null;
-        if (!empty($embeddingArr) && is_array($embeddingArr)) {
-            $flat = array_values(array_filter(array_map(
-                fn($v) => is_null($v) ? null : (float) $v,
-                $embeddingArr
-            ), fn($v) => $v !== null || $v === 0.0)); // mantém zeros
-
-            if (!empty($flat)) {
-                $embeddingSql = '[' . implode(',', $flat) . ']';
-            } else {
-                $embeddingSql = null;
+        $required = ['resource', 'text'];
+        foreach ($required as $field) {
+            if (empty($item[$field])) {
+                throw new \InvalidArgumentException("Campo obrigatório ausente: {$field}");
             }
         }
 
-        // metadata -> json string
-        $metadataJson = json_encode($metadataArr);
+        // Validar tamanho do texto (aproximação: 1 token ≈ 4 caracteres)
+        $estimatedTokens = mb_strlen($item['text']) / 4;
+        if ($estimatedTokens > self::MAX_TOKENS) {
+            throw new \InvalidArgumentException(
+                "Texto muito longo (~{$estimatedTokens} tokens). Máximo: " . self::MAX_TOKENS
+            );
+        }
 
-        // version (pode ajustar conforme sua lógica)
-        $version = $payload['version'] ?? 1;
-
-        $sql = "
-                INSERT INTO documents
-                    (resource, name, question_id, question, answer, content, embedding, metadata, version)
-                VALUES (?, ?, ?, ?, ?, ?, ?::vector, ?::jsonb, ?)
-                ON CONFLICT (question_id, name, resource) DO UPDATE
-                SET question = EXCLUDED.question,
-                    answer   = EXCLUDED.answer,
-                    content  = EXCLUDED.content,
-                    embedding = COALESCE(EXCLUDED.embedding, documents.embedding),
-                    metadata = EXCLUDED.metadata,
-                    version = documents.version + 1,
-                    embedding_status = CASE WHEN EXCLUDED.embedding IS NOT NULL THEN 'done' ELSE documents.embedding_status END,
-                    updated_at = now();
-            ";
-
-        $connName = 'pgsql'; // conforme sua conexão
-
-        // IMPORTANTE: 9 placeholders -> 9 bindings
-        $created = DB::connection($connName)->statement($sql, [
-            $resource,
-            $name,
-            $questionId,
-            $question,
-            $answer,
-            $content,
-            $embeddingSql,   // string no formato [v1,v2,...] ou null
-            $metadataJson,
-            $version
-        ]);
-
-        return $created ?? false;
+        // Validar tipo 'qa' tem question
+        if (!empty($item['question']) && empty($item['question'])) {
+            throw new \InvalidArgumentException("Documentos tipo 'qa' devem ter 'question'");
+        }
     }
 
-    static protected function generateEmbedding($client, string $text): ?array
+    // Prepara payload para inserção no banco
+    protected static function preparePayload(array $item, array $embedding): array
     {
-        $response = $client->embeddings()->create([
-            'model' => 'text-embedding-3-small', // ou outro modelo compatível
-            'input' => $text,
-        ]);
+        return [
+            'resource' => $item['resource'],
+            'name' => $item['name'] ?? null,
+            'model_id' => $item['model_id'] ?? null,
+            'doc_type' => 'qa',
+            'question' => $item['question'] ?? null,
+            'answer' => $item['answer'] ?? null,
+            'content' => '**Pergunta:** ' . ($item['question'] ?? '') . '**\n** Resposta:** ' . ($item['answer'] ?? ''),
+            'embedding' => $embedding,
+            'metadata' => json_encode([
+                'source' => $item['metadata']['source'] ?? 'system',
+                'text_length' => mb_strlen($item['text']),
+                'text_hash' => md5($item['text']), // Para detectar mudanças
+                'has_answer' => !empty($item['answer']),
+                'indexed_at' => Carbon::now()->toIso8601String(),
+            ]),
+        ];
+    }
 
-        return $response->embeddings[0]->embedding ?? null;
+    // Insere ou atualiza documento no banco vetorial
+    // Estratégia: Upsert por (resource + model_id) com versionamento
+    public static function upsertPayload(array $payload): int
+    {
+        return DB::connection(self::CONNECTION)->transaction(function () use ($payload) {
+
+            $resource = $payload['resource'];
+            $modelId = $payload['model_id'];
+
+            // Buscar documento existente
+            $existing = DB::connection(self::CONNECTION)
+                ->table('documents')
+                ->where('resource', $resource)
+                ->where('model_id', $modelId)
+                ->orderBy('version', 'desc')
+                ->first();
+
+            // Converter embedding array para string PostgreSQL vector format
+            $embeddingStr = self::arrayToVectorString($payload['embedding']);
+
+            // Preparar dados comuns
+            $data = [
+                'resource' => $payload['resource'],
+                'name' => $payload['name'],
+                'model_id' => $payload['model_id'],
+                'doc_type' => $payload['doc_type'],
+                'question' => $payload['question'],
+                'answer' => $payload['answer'],
+                'content' => $payload['content'],
+                'metadata' => $payload['metadata'],
+                'updated_at' => Carbon::now(),
+            ];
+
+            // if ($existing) {
+            //     // Verificar se conteúdo mudou
+            //     $existingMetadata = json_decode($existing->metadata, true);
+            //     $newMetadata = json_decode($payload['metadata'], true);
+
+            //     $contentChanged = ($existingMetadata['text_hash'] ?? null) !== ($newMetadata['text_hash'] ?? null);
+
+            //     if ($contentChanged) {
+            //         // Criar nova versão
+            //         $data['version'] = $existing->version + 1;
+            //         $data['created_at'] = Carbon::now();
+
+            //         $documentId = DB::connection(self::CONNECTION)
+            //             ->table('documents')
+            //             ->insertGetId(array_merge($data, [
+            //                 'embedding' => DB::raw("'{$embeddingStr}'::vector")
+            //             ]));
+
+            //         Log::info('Nova versão de documento criada', [
+            //             'id' => $documentId,
+            //             'resource' => $resource,
+            //             'model_id' => $modelId,
+            //             'version' => $data['version'],
+            //         ]);
+
+            //         return true;
+            //     } else {
+            //         // Apenas atualizar timestamp (sem mudança real)
+            //         DB::connection(self::CONNECTION)
+            //             ->table('documents')
+            //             ->where('id', $existing->id)
+            //             ->update(['updated_at' => Carbon::now()]);
+
+            //         Log::debug('Documento sem mudanças, apenas timestamp atualizado', [
+            //             'id' => $existing->id,
+            //             'resource' => $resource,
+            //             'model_id' => $modelId,
+            //         ]);
+
+            //         return $existing->id;
+            //     }
+            // } else {
+                // Inserir novo documento
+                $data['version'] = 1;
+                $data['created_at'] = Carbon::now();
+
+                $documentId = DB::connection(self::CONNECTION)
+                    ->table('documents')
+                    ->insertGetId(array_merge($data, [
+                        'embedding' => DB::raw("'{$embeddingStr}'::vector")
+                    ]));
+
+                return true;
+            // }
+        });
+    }
+
+    // Gera embedding usando OpenAI API
+    protected static function generateEmbedding(string $text): ?array
+    {
+        try {
+            $client = self::getClient();
+
+            $response = $client->embeddings()->create([
+                'model' => self::EMBEDDING_MODEL,
+                'input' => $text,
+            ]);
+
+            $embedding = $response->embeddings[0]->embedding ?? null;
+
+            // Validar dimensionalidade
+            if ($embedding && count($embedding) !== self::EMBEDDING_DIMENSIONS) {
+                Log::error('Embedding com dimensão incorreta', [
+                    'expected' => self::EMBEDDING_DIMENSIONS,
+                    'received' => count($embedding),
+                ]);
+                return null;
+            }
+
+            return $embedding;
+
+        } catch (\OpenAI\Exceptions\ErrorException $e) {
+            Log::error('Erro na API OpenAI', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+            ]);
+            return null;
+        } catch (\Exception $e) {
+            Log::error('Erro ao gerar embedding', [
+                'message' => $e->getMessage(),
+            ]);
+            return null;
+        }
+    }
+
+    // Converte array PHP para string no formato PostgreSQL vector
+    protected static function arrayToVectorString(array $embedding): string
+    {
+        return '[' . implode(',', $embedding) . ']';
+    }
+
+    // Processa batch de items (útil para importações em massa)
+    public static function batchVectorizeAndStore(array $items): array
+    {
+        $results = [
+            'success' => 0,
+            'failed' => 0,
+            'ids' => [],
+        ];
+
+        foreach ($items as $item) {
+            $result = self::vectorizeAndStore($item);
+
+            if ($result) {
+                $results['success']++;
+                $results['ids'][] = $result;
+            } else {
+                $results['failed']++;
+            }
+        }
+        return $results;
     }
 }
 
