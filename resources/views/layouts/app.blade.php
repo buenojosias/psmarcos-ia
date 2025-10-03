@@ -21,6 +21,7 @@
 
 <body>
     <x-ts-toast />
+    <x-ts-dialog />
     <x-ts-layout>
         <x-slot:header>
             <x-ts-layout.header>
@@ -46,6 +47,7 @@
                 </x-slot:brand>
                 <x-ts-side-bar.item text="Home" icon="home" :route="route('dashboard')" :current="request()->routeIs('dashboard')" />
                 <x-ts-side-bar.item text="Comunidades" icon="building-library" :route="route('communities.index')" :current="request()->routeIs('communities.*')" />
+                <x-ts-side-bar.item text="Missas" icon="book-open" :route="route('masses.index')" :current="request()->routeIs('masses.*')" />
                 <x-ts-side-bar.item text="Grupos, movimentos e pastorais" icon="user-group" :route="route('pastorals.index')"
                     :current="request()->routeIs('pastorals.*')" />
                 <x-ts-side-bar.item text="Eventos" icon="calendar" :route="route('events.index')" :current="request()->routeIs('events.*')" />

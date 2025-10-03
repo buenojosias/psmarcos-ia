@@ -9,18 +9,26 @@ class VectorizeQuestionService
 {
     static public function vectorize(string $resource, $model, $question)
     {
-        // $question = Question::select('id', 'question', 'answer')->whereIn('id', $question)->get();
+        $batchPayload['resource'] = $resource;
+        $batchPayload['name'] = $model['name'];
+        $batchPayload['model_id'] = $question['id'];
+        $batchPayload['doc_type'] = 'mass_data';
+        $batchPayload['question'] = $question['question'];
+        $batchPayload['answer'] = $question['answer'];
+        $batchPayload['text'] = "**Pergunta:** {$question['question']}** \n **Resposta:** {$question['answer']}";
 
-        // $batchPayload = $question->map(function ($question) use ($resource, $model) {
-            // return [
-                $batchPayload['resource'] = $resource;
-                $batchPayload['name'] = $model['name'];
-                $batchPayload['model_id'] = $question['id'];
-                $batchPayload['question'] = $question['question'];
-                $batchPayload['answer'] = $question['answer'];
-                $batchPayload['text'] = "**Pergunta:** {$question['question']}**\n**Resposta:** {$question['answer']}";
-        //     ];
-        // });
+        $batchPayload['metadata'] = [
+            'resource' => $resource,
+            'name' => $model['name'] ?? null,
+            'model_id' => $question['id'] ?? null,
+        ];
+
+        if ($resource === 'event') {
+            $batchPayload['metadata']['schedule'] = [
+                'type' => 'single_event',
+                'datetime' => $model['starts_at'],
+            ];
+        }
 
         return VectorizeAndStoreQAService::vectorizeAndStore($batchPayload);
     }

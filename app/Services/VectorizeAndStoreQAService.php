@@ -93,28 +93,21 @@ class VectorizeAndStoreQAService
     // Prepara payload para inserção no banco
     protected static function preparePayload(array $item, array $embedding): array
     {
-        $content = '**Pergunta:** ' . ($item['question'] ?? '') . '**\n** Resposta:** ' . ($item['answer'] ?? '');
-        return [
+        // $content = '**Pergunta:** ' . ($item['question'] ?? '') . '**\n** Resposta:** ' . ($item['answer'] ?? '');
+        $content = $item['text'];
+        $payload = [
             'resource' => $item['resource'],
             'name' => $item['name'] ?? null,
             'model_id' => $item['model_id'] ?? null,
-            'doc_type' => 'qa',
+            'doc_type' => $item['doc_type'],
             'question' => $item['question'] ?? null,
             'answer' => $item['answer'] ?? null,
             'content' => $content,
             'embedding' => $embedding,
-            'metadata' => json_encode([
-                'resource' => $item['resource'],
-                'doc_type' => 'qa',
-                'name' => $item['name'] ?? null,
-                'model_id' => $item['model_id'] ?? null,
-                // 'source' => $item['metadata']['source'] ?? 'system',
-                // 'text_length' => mb_strlen($content),
-                // 'text_hash' => md5($content), // Para detectar mudanças
-                // 'has_answer' => !empty($item['answer']),
-                // 'indexed_at' => Carbon::now()->toIso8601String(),
-            ]),
+            'metadata' => json_encode($item['metadata']),
         ];
+
+        return $payload;
     }
 
     // Insere ou atualiza documento no banco vetorial

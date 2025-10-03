@@ -21,4 +21,9 @@ class Community extends Model
     {
         return $this->morphMany(Event::class, 'eventable');
     }
+
+    public function masses()
+    {
+        return $this->hasMany(Mass::class);
+    }
 }
