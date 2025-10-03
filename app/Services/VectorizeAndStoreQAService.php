@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use OpenAI;
 use OpenAI\Client as OpenAIClient;
 
-class VectorizeAndStoreService
+class VectorizeAndStoreQAService
 {
     protected static ?OpenAIClient $client = null;
     protected const EMBEDDING_MODEL = 'text-embedding-3-small';
@@ -93,6 +93,7 @@ class VectorizeAndStoreService
     // Prepara payload para inserção no banco
     protected static function preparePayload(array $item, array $embedding): array
     {
+        $content = '**Pergunta:** ' . ($item['question'] ?? '') . '**\n** Resposta:** ' . ($item['answer'] ?? '');
         return [
             'resource' => $item['resource'],
             'name' => $item['name'] ?? null,
@@ -100,14 +101,18 @@ class VectorizeAndStoreService
             'doc_type' => 'qa',
             'question' => $item['question'] ?? null,
             'answer' => $item['answer'] ?? null,
-            'content' => '**Pergunta:** ' . ($item['question'] ?? '') . '**\n** Resposta:** ' . ($item['answer'] ?? ''),
+            'content' => $content,
             'embedding' => $embedding,
             'metadata' => json_encode([
-                'source' => $item['metadata']['source'] ?? 'system',
-                'text_length' => mb_strlen($item['text']),
-                'text_hash' => md5($item['text']), // Para detectar mudanças
-                'has_answer' => !empty($item['answer']),
-                'indexed_at' => Carbon::now()->toIso8601String(),
+                'resource' => $item['resource'],
+                'doc_type' => 'qa',
+                'name' => $item['name'] ?? null,
+                'model_id' => $item['model_id'] ?? null,
+                // 'source' => $item['metadata']['source'] ?? 'system',
+                // 'text_length' => mb_strlen($content),
+                // 'text_hash' => md5($content), // Para detectar mudanças
+                // 'has_answer' => !empty($item['answer']),
+                // 'indexed_at' => Carbon::now()->toIso8601String(),
             ]),
         ];
     }
@@ -118,16 +123,16 @@ class VectorizeAndStoreService
     {
         return DB::connection(self::CONNECTION)->transaction(function () use ($payload) {
 
-            $resource = $payload['resource'];
-            $modelId = $payload['model_id'];
+            // $resource = $payload['resource'];
+            // $modelId = $payload['model_id'];
 
             // Buscar documento existente
-            $existing = DB::connection(self::CONNECTION)
-                ->table('documents')
-                ->where('resource', $resource)
-                ->where('model_id', $modelId)
-                ->orderBy('version', 'desc')
-                ->first();
+            // $existing = DB::connection(self::CONNECTION)
+            //     ->table('documents')
+            //     ->where('resource', $resource)
+            //     ->where('model_id', $modelId)
+            //     ->orderBy('version', 'desc')
+            //     ->first();
 
             // Converter embedding array para string PostgreSQL vector format
             $embeddingStr = self::arrayToVectorString($payload['embedding']);

@@ -14,7 +14,7 @@ class VectorizeQuestionService
         // $batchPayload = $question->map(function ($question) use ($resource, $model) {
             // return [
                 $batchPayload['resource'] = $resource;
-                $batchPayload['name'] = $model['slug'];
+                $batchPayload['name'] = $model['name'];
                 $batchPayload['model_id'] = $question['id'];
                 $batchPayload['question'] = $question['question'];
                 $batchPayload['answer'] = $question['answer'];
@@ -22,6 +22,6 @@ class VectorizeQuestionService
         //     ];
         // });
 
-        return VectorizeAndStoreService::vectorizeAndStore($batchPayload);
+        return VectorizeAndStoreQAService::vectorizeAndStore($batchPayload);
     }
 }
