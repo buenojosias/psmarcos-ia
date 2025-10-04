@@ -12,6 +12,8 @@ class Show extends Component
     public function mount(Community $community)
     {
         $this->community = $community;
+        $this->community->load(['masses']);
+        $this->community->loadCount(['pastorals', 'events']);
     }
 
     public function render()

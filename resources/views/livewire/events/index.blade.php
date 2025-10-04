@@ -5,8 +5,7 @@
             <a href="{{ route('events.show', $row) }}">{{ $row->name }}</a>
         @endinteract
         @interact('column_action', $row)
-            {{-- <x-ts-link :href="route('pastorals.questions', $row)" icon="question-mark-circle" /> --}}
-            <x-ts-icon name="question-mark-circle" class="w-4" />
+            <x-ts-link :href="route('events.questions', $row)" icon="question-mark-circle" />
         @endinteract
     </x-ts-table>
 </div>

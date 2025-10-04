@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 // Route::view('/', 'welcome');
+Route::get('testes', App\Http\Controllers\TestsController::class);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function () {

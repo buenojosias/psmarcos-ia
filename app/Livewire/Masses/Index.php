@@ -13,6 +13,7 @@ class Index extends Component
     {
         $masses = Mass::query()
             ->with('community')
+            // ->whereIn('weekday', [1, 7])
             ->orderBy('weekday', 'asc')
             ->orderBy('time', 'asc')
             ->get();
@@ -29,6 +30,7 @@ class Index extends Component
 
     public function render()
     {
+        // dd(\App\Services\GenerateMassQuestions::generate($this->masses->toArray()));
         $headers = [
             ['index' => 'weekday_label', 'label' => 'Dia da semana'],
             ['index' => 'formatted_time', 'label' => 'Hora'],
