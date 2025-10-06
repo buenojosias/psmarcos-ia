@@ -30,6 +30,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/eventos/{event}/perguntas', App\Livewire\Events\Questions::class)->name('events.questions');
 
     Route::get('/missas', App\Livewire\Masses\Index::class)->name('masses.index');
+
+    Route::get('/avisos', App\Livewire\Notices\Index::class)->name('notices.index');
 });
 
 require __DIR__.'/auth.php';

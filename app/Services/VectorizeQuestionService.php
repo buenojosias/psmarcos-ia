@@ -2,9 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Question;
-use Illuminate\Support\Facades\Http;
-
 class VectorizeQuestionService
 {
     static public function vectorize(string $resource, $model, $question)
@@ -30,6 +27,6 @@ class VectorizeQuestionService
             ];
         }
 
-        return VectorizeAndStoreQAService::vectorizeAndStore($batchPayload);
+        return EmbedAndStoreService::vectorizeAndStore($batchPayload);
     }
 }

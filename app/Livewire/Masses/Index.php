@@ -30,7 +30,6 @@ class Index extends Component
 
     public function render()
     {
-        // dd(\App\Services\GenerateMassQuestions::generate($this->masses->toArray()));
         $headers = [
             ['index' => 'weekday_label', 'label' => 'Dia da semana'],
             ['index' => 'formatted_time', 'label' => 'Hora'],

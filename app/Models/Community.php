@@ -26,4 +26,9 @@ class Community extends Model
     {
         return $this->hasMany(Mass::class);
     }
+
+    public function notices()
+    {
+        return $this->morphMany(Notice::class, 'notifiable');
+    }
 }

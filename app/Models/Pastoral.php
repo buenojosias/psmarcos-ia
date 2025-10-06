@@ -37,4 +37,9 @@ class Pastoral extends Model
     {
         return $this->morphMany(Event::class, 'eventable');
     }
+
+    public function notices(): MorphMany
+    {
+        return $this->morphMany(Notice::class, 'notifiable');
+    }
 }

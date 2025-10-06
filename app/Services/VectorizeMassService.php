@@ -2,9 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\WeekdayEnum;
-use App\Models\Question;
-
 class VectorizeMassService
 {
     static public function vectorizeMassData($mass)
@@ -34,7 +31,7 @@ class VectorizeMassService
             'time' => $mass['time']->format('H:i:s'),
         ];
 
-        return VectorizeAndStoreQAService::vectorizeAndStore($batchPayload);
+        return EmbedAndStoreService::vectorizeAndStore($batchPayload);
     }
 
     static public function vectorizeMassQuestions($mass)

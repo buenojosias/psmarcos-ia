@@ -46,7 +46,7 @@ class Create extends Component
             'name' => 'required|string|max:130',
             'user_id' => 'nullable|exists:users,id',
             'community_id' => 'nullable|exists:communities,id',
-            'description' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
         ]);
         $data['slug'] = Str::slug($data['name'], '_');
 

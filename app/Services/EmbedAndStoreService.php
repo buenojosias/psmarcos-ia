@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use OpenAI;
 use OpenAI\Client as OpenAIClient;
 
-class VectorizeAndStoreQAService
+class EmbedAndStoreService
 {
     protected static ?OpenAIClient $client = null;
     protected const EMBEDDING_MODEL = 'text-embedding-3-small';

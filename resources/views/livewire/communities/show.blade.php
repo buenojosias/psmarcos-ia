@@ -23,12 +23,7 @@
         </div>
         <div class="w-full sm:w-1/2">
             <div class="space-y-4">
-                <x-ts-card header="Avisos">
-
-                    <x-slot:footer>
-                        <x-ts-button text="Gerenciar avisos" href="#" sm />
-                    </x-slot>
-                </x-ts-card>
+                <livewire:notices.list-notices resource="comunidade" :model="$community" />
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <x-ts-stats title="Grupos, Movimentos e Pastorais" :number="$community->pastorals_count" />
                     <x-ts-stats title="Eventos" :number="$community->events_count" />
