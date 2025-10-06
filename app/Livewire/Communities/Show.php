@@ -19,6 +19,6 @@ class Show extends Component
     public function render()
     {
         return view('livewire.communities.show')
-            ->title($this->community->name);
+            ->title('Comunidade');
     }
 }

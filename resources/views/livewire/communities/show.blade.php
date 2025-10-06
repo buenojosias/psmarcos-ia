@@ -1,4 +1,5 @@
-<div>
+<div class="space-y-4">
+    <h2>{{ $community->name }}</h2>
     <div class="flex flex-col sm:flex-row gap-4">
         <div class="w-full sm:w-1/2">
             <div class="space-y-4">

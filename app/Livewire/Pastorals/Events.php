@@ -39,6 +39,6 @@ class Events extends Component
         $rows = $this->events->sortBy('starts_at');
 
         return view('livewire.pastorals.events', compact('headers', 'rows'))
-            ->title($this->pastoral->name);
+            ->title('Eventos');
     }
 }

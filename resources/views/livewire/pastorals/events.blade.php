@@ -1,5 +1,5 @@
 <div class="space-y-4">
-    <h2>Eventos</h2>
+    <h2>{{ $pastoral->name }}</h2>
 
     <livewire:events.create :model="$this->pastoral" @saved="$refresh" />
     <x-ts-table :$headers :$rows>

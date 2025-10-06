@@ -24,6 +24,6 @@ class Questions extends Component
     public function render()
     {
         return view('livewire.pastorals.questions')
-            ->title($this->pastoral->name);
+            ->title('Perguntas e respostas');
     }
 }
