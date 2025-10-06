@@ -16,11 +16,8 @@
                         <x-ts-button text="Editar" />
                     </x-slot>
                 </x-ts-card>
-
-
                 <x-ts-card header="Missas" class="space-y-4">
                     @forelse ($community->masses as $mass)
-                        {{-- <div class="mb-2 pb-2 border-b border-gray-200 dark:border-gray-600 last:border-none last:mb-0 last:pb-0"> --}}
                         <div class="">
                             <p class="font-semibold">{{ $mass->weekday->getLabel() }} - {{ $mass->time->format('H:i') }}
                             </p>
@@ -40,7 +37,7 @@
         <div class="w-full sm:w-1/2">
             <div class="space-y-4">
                 <livewire:notices.list-notices resource="comunidade" :model="$community" />
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
                     <x-ts-stats title="Grupos, Movimentos e Pastorais" :number="$community->pastorals_count" :href="route('communities.pastorals', $community)" />
                     <x-ts-stats title="Eventos" :number="$community->events_count" :href="route('communities.events', $community)" />
                 </div>

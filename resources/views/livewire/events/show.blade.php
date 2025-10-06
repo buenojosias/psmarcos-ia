@@ -1,6 +1,6 @@
 <div class="space-y-4">
     <h2>{{ $this->event->name }}</h2>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div class="sm:col-span-2">
             <x-ts-card header="Sobre">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">

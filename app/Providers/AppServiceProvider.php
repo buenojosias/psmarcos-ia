@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
 
         TallStackUi::personalize()
             ->layout()
-            ->block('main', 'mx-auto max-w-full p-6');
+            ->block('main', 'mx-auto max-w-full p-4 md:p-6');
 
         TallStackUi::personalize()
             ->button()

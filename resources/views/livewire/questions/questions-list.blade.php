@@ -12,7 +12,7 @@
                         <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $item['question'] }}</span> <br>
                         {{ $item['answer'] }}
                     </div>
-                    <div class="p-2 flex items-center justify-center gap-1">
+                    <div class="p-2 flex flex-col md:flex-row items-center justify-center gap-2">
                         <x-ts-icon :name="$item['status']->getIcon()" outline :color="$item['status']->getColor()" class="w-5 h-5" />
                         <x-ts-dropdown icon="ellipsis-vertical" static>
                             <x-ts-dropdown.items icon="pencil" text="Editar" />

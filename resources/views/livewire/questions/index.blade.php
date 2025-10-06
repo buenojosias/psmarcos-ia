@@ -17,7 +17,7 @@
             <a href="{{ route($row->route_name . '.questions', $row->questionable->id) }}">{{ $row->questionable->name }}</a>
         @endinteract
         @interact('column_action', $row)
-            <x-ts-icon :name="$row->status->getIcon()" :color="$row->status->getColor()" class="w-5" outline />
+            <x-ts-icon :name="$row->status->getIcon()" :color="$row->status->getColor()" class="w-5 mx-2" outline />
             {{-- <x-ts-button href="{{ route('questions.edit', $row->id) }}" icon="pencil" sm flat /> --}}
             {{-- <x-ts-button wire:click="confirm('delete', {{ $row->id }})" icon="trash" sm flat negative /> --}}
         @endinteract
