@@ -22,10 +22,15 @@ class Create extends Component
     public $communities = [];
     public $users = [];
 
+    public function mount($community_id = null)
+    {
+        $this->community_id = $community_id;
+    }
+
     #[On('modalOpened')]
     public function modalOpened()
     {
-        if (empty($this->communities)) {
+        if (is_null($this->community_id) && empty($this->communities)) {
             $this->communities = Community::all()->toArray();
             $this->communities = array_merge([['id' => null, 'name' => 'Selecione uma comunidade']], $this->communities);
         }
@@ -64,7 +69,6 @@ class Create extends Component
         $this->reset([
             'name',
             'user_id',
-            'community_id',
             'description',
         ]);
     }

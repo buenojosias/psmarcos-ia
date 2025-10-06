@@ -19,6 +19,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/comunidades', App\Livewire\Communities\Index::class)->name('communities.index');
     Route::get('/comunidades/{community}', App\Livewire\Communities\Show::class)->name('communities.show');
+    Route::get('/comunidades/{community}/eventos', App\Livewire\Communities\Events::class)->name('communities.events');
+    Route::get('/comunidades/{community}/grupos', App\Livewire\Communities\Pastorals::class)->name('communities.pastorals');
 
     Route::get('/gmp', App\Livewire\Pastorals\Index::class)->name('pastorals.index');
     Route::get('/gmp/{pastoral}', App\Livewire\Pastorals\Show::class)->name('pastorals.show');

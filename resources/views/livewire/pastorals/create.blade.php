@@ -4,8 +4,12 @@
         x-on:open="$wire.dispatch('modalOpened')">
         <form id="create-pastoral-form" wire:submit="save" class="space-y-4">
             <x-ts-input label="Nome *" wire:model="name" required />
-            <x-ts-select.native label="Comunidade" wire:model="community_id" :options="$communities" select="label:name|value:id" />
-            <x-ts-select.native label="Coordenador(a)" wire:model="user_id" :options="$users" select="label:name|value:id" />
+            @if (!empty($communities))
+                <x-ts-select.native label="Comunidade" wire:model="community_id" :options="$communities"
+                    select="label:name|value:id" />
+            @endif
+            <x-ts-select.native label="Coordenador(a)" wire:model="user_id" :options="$users"
+                select="label:name|value:id" />
             <x-ts-textarea label="Descrição" wire:model="description" required resize-auto />
         </form>
         <x-slot name="footer">
