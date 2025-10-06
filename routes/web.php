@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/missas', App\Livewire\Masses\Index::class)->name('masses.index');
 
+    Route::get('/perguntas', App\Livewire\Questions\Index::class)->name('questions.index');
+
     Route::get('/avisos', App\Livewire\Notices\Index::class)->name('notices.index');
 });
 

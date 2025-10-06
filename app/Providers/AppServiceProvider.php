@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
             'community' => \App\Models\Community::class,
             'pastoral' => \App\Models\Pastoral::class,
             'event' => \App\Models\Event::class,
+            'mass' => \App\Models\Mass::class,
         ]);
 
         TallStackUi::personalize()
