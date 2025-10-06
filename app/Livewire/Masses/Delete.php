@@ -26,7 +26,7 @@ class Delete extends Component
 
     public function confirmed()
     {
-        \DB::connection('pgsql')->table('documents')
+        \DB::connection('pgsql')->table(config('database.table_vector'))
             ->where('resource', 'missa')
             ->where('model_id', $this->massId)
             ->delete();

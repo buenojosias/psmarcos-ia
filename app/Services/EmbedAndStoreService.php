@@ -121,7 +121,7 @@ class EmbedAndStoreService
 
             // Buscar documento existente
             // $existing = DB::connection(self::CONNECTION)
-            //     ->table('documents')
+            //     ->table(config('database.table_vector'))
             //     ->where('resource', $resource)
             //     ->where('model_id', $modelId)
             //     ->orderBy('version', 'desc')
@@ -156,7 +156,7 @@ class EmbedAndStoreService
             //         $data['created_at'] = Carbon::now();
 
             //         $documentId = DB::connection(self::CONNECTION)
-            //             ->table('documents')
+            //             ->table(config('database.table_vector'))
             //             ->insertGetId(array_merge($data, [
             //                 'embedding' => DB::raw("'{$embeddingStr}'::vector")
             //             ]));
@@ -172,7 +172,7 @@ class EmbedAndStoreService
             //     } else {
             //         // Apenas atualizar timestamp (sem mudança real)
             //         DB::connection(self::CONNECTION)
-            //             ->table('documents')
+            //             ->table(config('database.table_vector'))
             //             ->where('id', $existing->id)
             //             ->update(['updated_at' => Carbon::now()]);
 
@@ -190,7 +190,7 @@ class EmbedAndStoreService
                 $data['created_at'] = Carbon::now();
 
                 $documentId = DB::connection(self::CONNECTION)
-                    ->table('documents')
+                    ->table(config('database.table_vector'))
                     ->insertGetId(array_merge($data, [
                         'embedding' => DB::raw("'{$embeddingStr}'::vector")
                     ]));

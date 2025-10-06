@@ -9,7 +9,7 @@ class TestsController extends Controller
     public function __invoke()
     {
         $masses = \DB::connection('pgsql')
-                    ->table('documents')
+                    ->table(config('database.table_vector'))
                     ->where('resource', 'missa')
                     ->select('id', 'resource', 'name', 'model_id', 'doc_type', 'content', 'metadata', 'tsv')
                     ->get();

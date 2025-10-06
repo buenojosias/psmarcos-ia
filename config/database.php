@@ -183,4 +183,5 @@ return [
 
     ],
 
+    'table_vector' => env('APP_ENV') === 'production' ? 'documents' : 'documents_dev',
 ];

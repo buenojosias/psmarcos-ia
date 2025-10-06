@@ -13,7 +13,7 @@ class DeleteQuestionService
         }
 
         if ($question->status->value == 'processed') {
-            \DB::connection('pgsql')->table('documents')
+            \DB::connection('pgsql')->table(config('database.table_vector'))
                 ->where('model_id', $question->id)
                 ->delete();
         }
