@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Questions;
 
+use App\Models\Suggestion;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
@@ -24,6 +25,7 @@ class Create extends Component
                 'id' => rand(1000, 9000),
                 'question' => '',
                 'answer' => '',
+                'suggestion_id' => null,
             ],
         ])->toArray();
         // $this->addQuestion();
@@ -40,6 +42,7 @@ class Create extends Component
             'id' => rand(1000, 9000),
             'question' => '',
             'answer' => '',
+            'suggestion_id' => null,
         ];
     }
 
@@ -48,8 +51,9 @@ class Create extends Component
     {
         $this->questions[] = [
             'id' => rand(1000, 9000),
-            'question' => $question,
+            'question' => is_array($question) ? $question['content'] : $question,
             'answer' => '',
+            'suggestion_id' => $question['id'] ?? null,
         ];
     }
 
@@ -65,11 +69,16 @@ class Create extends Component
         $data = $this->validate([
             'qa.question' => 'required|string|max:255',
             'qa.answer' => 'required|string|max:255',
+            'qa.suggestion_id' => 'nullable|integer',
         ]);
         $data['qa']['model_id'] = $this->model->id;
 
         $created = $this->model->questions()->create($data['qa']);
         if ($created) {
+            if ($this->qa['suggestion_id']) {
+                Suggestion::find($this->qa['suggestion_id'])->increment('usages');
+            }
+
             $this->reset('qa');
             $this->toast()->success('Pergunta criada com sucesso!')->send();
             $this->removeQuestion($id);

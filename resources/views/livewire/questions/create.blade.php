@@ -21,6 +21,7 @@
     <x-slot:footer>
         <div class="flex space-x-2">
             <x-ts-button text="Adicionar pergunta" wire:click="addQuestion" sm />
+            <livewire:questions.default-suggestions :resource="$resource" :model="$model" />
             <livewire:questions.generate-suggestions :resource="$resource" :model="$model" />
         </div>
     </x-slot>
