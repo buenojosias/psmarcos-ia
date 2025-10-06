@@ -13,13 +13,11 @@ class Create extends Component
     public $name;
     public $email;
     public $password;
-    public $role;
-    public $roles = [
-        [ 'value' => null, 'label' => 'Selecione uma função' ],
+    public $roles = [];
+    public $roleOptions = [
         [ 'value' => 'coordinator', 'label' => 'Coordenador(a) de pastoral', ],
         [ 'value' => 'secretary', 'label' => 'Secretário(a)', ],
         [ 'value' => 'pascom', 'label' => 'Pasconeiro(a)', ],
-        [ 'value' => 'priest', 'label' => 'Padre', ],
         [ 'value' => 'admin', 'label' => 'Administrador', ],
     ];
 
@@ -34,7 +32,7 @@ class Create extends Component
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:6',
-            'role' => 'required|string',
+            'roles' => 'required|array|min:1',
         ]);
 
         $data['password'] = bcrypt($data['password']);
@@ -50,6 +48,6 @@ class Create extends Component
 
     public function resetForm()
     {
-        $this->reset(['name', 'email', 'password', 'role']);
+        $this->reset(['name', 'email', 'password', 'roles']);
     }
 }

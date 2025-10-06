@@ -3,11 +3,9 @@
     <x-ts-modal id="create-user-modal" title="Cadastrar usuário" size="lg">
         <form id="create-user-form" wire:submit="save" class="space-y-4">
             <x-ts-input label="Nome" wire:model="name" required />
-            <x-ts-select.native label="Função" wire:model="role" required
-                :options="$roles" select="label:label|value:value"
-            />
             <x-ts-input label="E-mail" wire:model="email" required />
             <x-ts-password label="Senha" wire:model="password" />
+            <x-ts-select.styled label="Funções" wire:model="roles" :options="$roleOptions" multiple required />
         </form>
         <x-slot name="footer">
             <x-ts-button text="Cancelar" x-on:click="$modalClose('create-user-modal')" color="secondary" />
