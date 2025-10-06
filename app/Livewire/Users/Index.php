@@ -13,12 +13,6 @@ class Index extends Component
     {
         $users = User::orderBy('name')->get();
 
-        $users->map(function ($user) {
-            $user->user_role = $user->role->getLabel();
-
-            return $user;
-        });
-
         return $users;
     }
 
@@ -26,7 +20,7 @@ class Index extends Component
     {
         $headers = [
             ['index' => 'user_name', 'label' => 'Nome'],
-            ['index' => 'user_role', 'label' => 'Função'],
+            ['index' => 'user_role', 'label' => 'Função(ões)'],
         ];
 
         $rows = $this->users;

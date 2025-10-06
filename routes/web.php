@@ -14,9 +14,6 @@ Route::group(['middleware' => ['auth']], function () {
         return view('profile');
     })->name('profile');
 
-    Route::get('/usuarios', App\Livewire\Users\Index::class)->name('users.index');
-    Route::get('/usuarios/{user}', App\Livewire\Users\Show::class)->name('users.show');
-
     Route::get('/comunidades', App\Livewire\Communities\Index::class)->name('communities.index');
     Route::get('/comunidades/{community}', App\Livewire\Communities\Show::class)->name('communities.show');
     Route::get('/comunidades/{community}/eventos', App\Livewire\Communities\Events::class)->name('communities.events');
@@ -36,6 +33,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/perguntas', App\Livewire\Questions\Index::class)->name('questions.index');
 
     Route::get('/avisos', App\Livewire\Notices\Index::class)->name('notices.index');
+
+    Route::get('/usuarios', App\Livewire\Users\Index::class)->name('users.index');
+    Route::get('/usuarios/{user}', App\Livewire\Users\Show::class)->name('users.show');
+
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
