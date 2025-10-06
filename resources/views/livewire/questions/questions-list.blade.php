@@ -8,7 +8,7 @@
                             <x-ts-checkbox wire:model="selectedQuestions" id="question-{{ $item['id'] }}" value="{{ $item['id'] }}" />
                         @endif
                     </div>
-                    <div class="flex-1">
+                    <div class="flex-1 text-sm">
                         <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $item['question'] }}</span> <br>
                         {{ $item['answer'] }}
                     </div>

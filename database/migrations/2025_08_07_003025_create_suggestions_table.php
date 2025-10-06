@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('suggestions', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['C', 'P', 'E']);
+            $table->enum('type', ['C', 'P', 'E', 'G']);
             $table->string('content');
             $table->integer('usages')->default(0);
             $table->timestamps();

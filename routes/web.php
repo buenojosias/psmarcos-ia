@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/missas', App\Livewire\Masses\Index::class)->name('masses.index');
 
     Route::get('/perguntas', App\Livewire\Questions\Index::class)->name('questions.index');
+    Route::get('/perguntas/sugestoes', App\Livewire\Questions\ListSuggestions::class)->name('questions.suggestions');
 
     Route::get('/avisos', App\Livewire\Notices\Index::class)->name('notices.index');
 

@@ -51,12 +51,14 @@
                 <x-ts-side-bar.item text="Grupos, movimentos e pastorais" icon="user-group" :route="route('pastorals.index')"
                     :current="request()->routeIs('pastorals.*')" />
                 <x-ts-side-bar.item text="Eventos" icon="calendar" :route="route('events.index')" :current="request()->routeIs('events.*')" />
-                <x-ts-side-bar.item text="Perguntas e respostas" icon="question-mark-circle" :route="route('questions.index')" :current="request()->routeIs('questions.*')" />
+                <x-ts-side-bar.item text="Perguntas e respostas" icon="question-mark-circle" :current="request()->routeIs('questions.*')">
+                    <x-ts-side-bar.item text="Cadastradas" icon="list-bullet" :route="route('questions.index')" :current="request()->routeIs('questions.index')" />
+                    <x-ts-side-bar.item text="Sugestões" icon="light-bulb" :route="route('questions.suggestions')" :current="request()->routeIs('questions.suggestions*')" />
+                </x-ts-side-bar.item>
                 <x-ts-side-bar.item text="Avisos" icon="bell" :route="route('notices.index')" :current="request()->routeIs('notices.*')" />
                 <x-ts-side-bar.item text="Usuários" icon="user" :route="route('users.index')" :current="request()->routeIs('users.*')" />
             </x-ts-side-bar>
         </x-slot:menu>
-
         {{ $slot }}
     </x-ts-layout>
 
