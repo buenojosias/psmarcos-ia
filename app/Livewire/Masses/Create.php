@@ -56,6 +56,11 @@ class Create extends Component
             'weekday' => 'required|in:' . implode(',', array_column(WeekdayEnum::cases(), 'value')),
             'time' => 'required|date_format:H:i',
             'note' => 'nullable|string|max:255',
+        ], attributes: [
+            'community_id' => 'comunidade',
+            'weekday' => 'dia da semana',
+            'time' => 'horário',
+            'note' => 'observação',
         ]);
 
         $community_name = $this->communities[$this->community_id]['name'] ?? null;

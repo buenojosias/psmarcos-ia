@@ -70,6 +70,10 @@ class Create extends Component
             'qa.question' => 'required|string|max:255',
             'qa.answer' => 'required|string|max:255',
             'qa.suggestion_id' => 'nullable|integer',
+        ], attributes: [
+            'qa.question' => 'pergunta',
+            'qa.answer' => 'resposta',
+            'qa.suggestion_id' => 'sugestão',
         ]);
         $data['qa']['model_id'] = $this->model->id;
 

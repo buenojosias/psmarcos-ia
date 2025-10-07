@@ -27,6 +27,11 @@ class Community extends Model
         return $this->hasMany(Mass::class);
     }
 
+    public function questions()
+    {
+        return $this->morphMany(Question::class, 'questionable');
+    }
+
     public function notices()
     {
         return $this->morphMany(Notice::class, 'notifiable');

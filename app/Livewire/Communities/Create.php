@@ -25,6 +25,10 @@ class Create extends Component
             'name' => 'required|string|max:130',
             'alias' => 'required|string|max:30|unique:communities,alias',
             'address' => 'nullable|string|max:255',
+        ], attributes: [
+            'name' => 'nome',
+            'alias' => 'abreviação',
+            'address' => 'endereço',
         ]);
 
         $community = Community::create($data);

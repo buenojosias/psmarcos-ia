@@ -12,7 +12,7 @@ class Index extends Component
     #[Computed]
     public function getCommunitiesProperty()
     {
-        return Community::all();
+        return Community::withCount(['pastorals', 'events', 'questions', 'notices'])->get();
     }
 
     public function render()

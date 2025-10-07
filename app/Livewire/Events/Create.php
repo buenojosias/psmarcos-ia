@@ -36,6 +36,14 @@ class Create extends Component
             'end_time' => 'nullable|date_format:H:i',
             'location' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+        ], attributes: [
+            'name' => 'nome',
+            'start_date' => 'data de início',
+            'start_time' => 'horário de início',
+            'end_date' => 'data de término',
+            'end_time' => 'horário de término',
+            'location' => 'local',
+            'description' => 'descrição',
         ]);
 
         $this->starts_at = date('Y-m-d H:i:s', strtotime($this->start_date . ' ' . $this->start_time));

@@ -13,7 +13,6 @@ class Index extends Component
             ['index' => 'pastoral_name', 'label' => 'Nome'],
             ['index' => 'community.name', 'label' => 'Comunidade'],
             ['index' => 'user.name', 'label' => 'Coordenador(a)'],
-            // [ 'index' => 'Q&As', 'label' => 'Q&As'],
             ['index' => 'action'],
         ];
 

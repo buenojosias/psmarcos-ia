@@ -29,7 +29,6 @@ class DefaultSuggestions extends Component
 
     public function loadSuggestions()
     {
-        // verificar se suggestions já foram geradas
         if (!empty($this->suggestions)) {
             return;
         }

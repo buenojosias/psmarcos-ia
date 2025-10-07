@@ -58,6 +58,11 @@ class Edit extends Component
             'user_id' => 'nullable|exists:users,id',
             'community_id' => 'nullable|exists:communities,id',
             'description' => 'nullable|string',
+        ], attributes: [
+            'name' => 'nome',
+            'user_id' => 'coordenador(a)',
+            'community_id' => 'comunidade',
+            'description' => 'descrição',
         ]);
         if ($data['description'] == '') {
             $data['description'] = null;

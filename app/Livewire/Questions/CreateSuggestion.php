@@ -18,6 +18,9 @@ class CreateSuggestion extends Component
         $data = $this->validate([
             'type' => 'required|string|max:1',
             'content' => 'required|string|max:255',
+        ], attributes: [
+            'type' => 'tipo',
+            'content' => 'conteúdo',
         ]);
 
         if (!str_contains($data['content'], '##')) {

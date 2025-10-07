@@ -27,6 +27,9 @@ class Create extends Component
         $data = $this->validate([
             'content' => 'required|string|max:255',
             'expires_at' => 'nullable|date|after:date',
+        ], attributes: [
+            'content' => 'conteúdo',
+            'expires_at' => 'data de expiração',
         ]);
 
         \DB::beginTransaction();
