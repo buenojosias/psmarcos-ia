@@ -19,7 +19,7 @@
 @script
 <script>
     $wire.on('closeModal', () => {
-        $modalClose('question-suggestions');
+        $modalClose('ai-suggestions');
     });
 </script>
 @endscript
