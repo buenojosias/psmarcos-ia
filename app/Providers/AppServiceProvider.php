@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use TallStackUi\Facades\TallStackUi;
 
@@ -15,6 +16,14 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Blade::if('role', function ($role) {
+            return auth()->check() && auth()->user()->hasRole($role);
+        });
+
+        Blade::if('anyrole', function ($roles) {
+            return auth()->check() && auth()->user()->hasAnyRole($roles);
+        });
+
         Relation::morphMap([
             'community' => \App\Models\Community::class,
             'pastoral' => \App\Models\Pastoral::class,

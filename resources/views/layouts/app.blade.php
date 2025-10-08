@@ -56,7 +56,9 @@
                     <x-ts-side-bar.item text="Sugestões" icon="light-bulb" :route="route('questions.suggestions')" :current="request()->routeIs('questions.suggestions*')" />
                 </x-ts-side-bar.item>
                 <x-ts-side-bar.item text="Avisos" icon="bell" :route="route('notices.index')" :current="request()->routeIs('notices.*')" />
-                <x-ts-side-bar.item text="Usuários" icon="user" :route="route('users.index')" :current="request()->routeIs('users.*')" />
+                @anyrole(['admin', 'pascom'])
+                    <x-ts-side-bar.item text="Usuários" icon="user" :route="route('users.index')" :current="request()->routeIs('users.*')" />
+                @endanyrole
             </x-ts-side-bar>
         </x-slot:menu>
         {{ $slot }}

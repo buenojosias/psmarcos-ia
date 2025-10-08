@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/avisos', App\Livewire\Notices\Index::class)->name('notices.index');
 
-    Route::get('/usuarios', App\Livewire\Users\Index::class)->name('users.index');
+    Route::get('/usuarios', App\Livewire\Users\Index::class)->name('users.index')->middleware(['role:admin|pascom']);
     Route::get('/usuarios/{user}', App\Livewire\Users\Show::class)->name('users.show');
 
 });

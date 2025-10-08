@@ -30,6 +30,24 @@ class User extends Authenticatable
         ];
     }
 
+    // Retorna array (sempre) — facilita uso nas views
+    public function getRolesArray(): array
+    {
+        return $this->roles ?? [];
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->getRolesArray(), true);
+    }
+
+    /** aceita string ou array */
+    public function hasAnyRole(array|string $roles): bool
+    {
+        $roles = (array) $roles;
+        return count(array_intersect($roles, $this->getRolesArray())) > 0;
+    }
+
     public function pastorals()
     {
         return $this->hasMany(Pastoral::class);
