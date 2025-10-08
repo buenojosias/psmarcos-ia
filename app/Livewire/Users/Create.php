@@ -31,8 +31,13 @@ class Create extends Component
         $data = $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:8',
             'roles' => 'required|array|min:1',
+        ], attributes: [
+            'name' => 'nome',
+            'email' => 'e-mail',
+            'password' => 'senha',
+            'roles' => 'funções',
         ]);
 
         $data['password'] = bcrypt($data['password']);

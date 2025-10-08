@@ -12,6 +12,9 @@ class Index extends Component
     public function getUsersProperty()
     {
         $users = User::orderBy('name')->get();
+        $users->map(function ($user) {
+            return $user;
+        });
 
         return $users;
     }
@@ -20,7 +23,7 @@ class Index extends Component
     {
         $headers = [
             ['index' => 'user_name', 'label' => 'Nome'],
-            ['index' => 'user_role', 'label' => 'Função(ões)'],
+            ['index' => 'user_roles', 'label' => 'Função(ões)'],
         ];
 
         $rows = $this->users;

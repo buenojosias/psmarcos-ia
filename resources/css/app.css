@@ -5,3 +5,16 @@
 h2 {
     @apply px-2 text-2xl font-bold text-gray-900 dark:text-gray-100;
 }
+
+.detail {
+    @apply space-y-4;
+}
+.detail div {
+    @apply flex justify-between items-center;
+}
+.detail dt {
+    @apply font-semibold text-gray-800 dark:text-gray-200;
+}
+.detail dd {
+    @apply font-semibold text-gray-700 dark:text-gray-300;
+}

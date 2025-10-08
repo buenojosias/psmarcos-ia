@@ -1,4 +1,9 @@
 <div>
+    @if ($this->communities->isEmpty())
+        <div class="text-center text-gray-500 dark:text-gray-400 mb-10">
+            Nenhuma comunidade adicionada.
+        </div>
+    @endif
     <livewire:communities.create @saved="$refresh" />
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         @foreach ($this->communities as $community)
