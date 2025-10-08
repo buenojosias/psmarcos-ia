@@ -3,8 +3,8 @@
         Perfil
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="w-full flex justify-center">
+        <div class="w-full sm:w-2/3 md:w-1/2 lg:w-full flex flex-col items-center justify-self-center space-y-4">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <livewire:profile.update-profile-information-form />
