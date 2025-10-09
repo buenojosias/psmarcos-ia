@@ -8,15 +8,18 @@
                         {{ \Carbon\Carbon::parse($notice->expires_at)->format('d/m/Y') }}</p>
                 </div>
                 <div>
-                    <x-ts-button icon="trash" x-on:click="$dispatch('delete-notice', { notice: {{ $notice->id }} })" color="red" flat sm />
+                    <x-ts-button icon="trash" x-on:click="$dispatch('delete-notice', { notice: {{ $notice->id }} })"
+                        color="red" flat sm />
                 </div>
             </div>
         @empty
             <p>Nenhum aviso cadastrado.</p>
         @endforelse
-        <x-slot:footer>
-            <livewire:notices.create :resource="$resource" :model="$model" @saved="$refresh" />
-        </x-slot>
+        @can('edit', $model)
+            <x-slot:footer>
+                <livewire:notices.create :resource="$resource" :model="$model" @saved="$refresh" />
+            </x-slot>
+        @endcan
     </x-ts-card>
     <livewire:notices.delete @deleted="$refresh" />
 </div>
