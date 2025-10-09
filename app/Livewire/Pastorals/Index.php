@@ -12,11 +12,11 @@ class Index extends Component
         $headers = [
             ['index' => 'pastoral_name', 'label' => 'Nome'],
             ['index' => 'community.name', 'label' => 'Comunidade'],
-            ['index' => 'user.name', 'label' => 'Coordenador(a)'],
+            ['index' => 'users.0.name', 'label' => 'Coordenador(a)'],
             ['index' => 'action'],
         ];
 
-        $rows = Pastoral::orderBy('name')->with('community', 'user')->get();
+        $rows = Pastoral::orderBy('name')->with(['community', 'users' => fn($query) => $query->wherePivot('is_leader', true)->first()])->get();
 
         return view('livewire.pastorals.index', compact('headers', 'rows'))
             ->title('Grupos, movimentos e pastorais');

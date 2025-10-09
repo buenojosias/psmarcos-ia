@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Livewire\Pastorals;
+
+use App\Models\User;
+use Livewire\Component;
+use TallStackUi\Traits\Interactions;
+
+class CreateUser extends Component
+{
+    use Interactions;
+
+    public $pastoral;
+    public $name;
+    public $email;
+    public $password;
+    public $roles = ['coordinator'];
+
+    public function mount($pastoral)
+    {
+        $this->pastoral = $pastoral;
+    }
+
+    public function render()
+    {
+        return view('livewire.pastorals.create-user');
+    }
+
+    public function save()
+    {
+        $data = $this->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8',
+            'roles' => 'required|array|min:1',
+        ], attributes: [
+            'name' => 'nome',
+            'email' => 'e-mail',
+            'password' => 'senha',
+            'roles' => 'funções',
+        ]);
+        $data['password'] = bcrypt($data['password']);
+
+        $user = User::create($data);
+
+        if ($user) {
+            $this->pastoral->users()->attach($user->id);
+            $this->toast()->success('Usuário cadastrado e vinculado com sucesso!')->send();
+            $this->dispatch('saved');
+            $this->resetForm();
+        }
+    }
+
+    public function resetForm()
+    {
+        $this->reset(['name', 'email', 'password']);
+    }
+}

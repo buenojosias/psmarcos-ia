@@ -4,6 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRoleEnum;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -14,6 +17,7 @@ class User extends Authenticatable
         'email',
         'password',
         'roles',
+        'created_by',
     ];
 
     protected $hidden = [
@@ -48,8 +52,19 @@ class User extends Authenticatable
         return count(array_intersect($roles, $this->getRolesArray())) > 0;
     }
 
-    public function pastorals()
+    public function pastorals(): BelongsToMany
     {
-        return $this->hasMany(Pastoral::class);
+        return $this->belongsToMany(Pastoral::class)
+            ->withPivot('is_leader');
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(User::class, 'created_by');
     }
 }

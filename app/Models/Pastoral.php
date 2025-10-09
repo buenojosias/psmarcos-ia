@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Pastoral extends Model
@@ -12,18 +14,18 @@ class Pastoral extends Model
 
     protected $fillable = [
         'community_id',
-        'user_id',
         'name',
         'slug',
         'description',
     ];
 
-    public function user()
+    public function users(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class)
+            ->withPivot('is_leader');
     }
 
-    public function community()
+    public function community(): BelongsTo
     {
         return $this->belongsTo(Community::class);
     }

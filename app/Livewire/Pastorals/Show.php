@@ -19,7 +19,7 @@ class Show extends Component
     public function getPastoralProperty()
     {
         return Pastoral::query()
-            ->with('user')
+            ->with('users')
             ->withCount(['questions', 'events'])
             ->findOrFail($this->pastoralId);
     }

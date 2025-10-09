@@ -12,7 +12,7 @@ enum UserRoleEnum: string
     public function getLabel(): string
     {
         return match ($this) {
-            self::COORDINATOR => 'Coordenador(a) de pastoral',
+            self::COORDINATOR => 'Coordenador/membro de pastoral',
             self::SECRETARY => 'Secretário(a)',
             self::PASCOM => 'Pasconeiro(a)',
             self::ADMIN => 'Administrador',
