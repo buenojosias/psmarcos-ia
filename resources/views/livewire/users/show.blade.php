@@ -3,6 +3,8 @@
         <x-ts-card header="Informações" class="detail">
             <x-detail label="Nome" :value="$user->name" />
             <x-detail label="E-mail" :value="$user->email" />
+            <x-detail label="Cadastrado por" :value="$user->parent?->name ?? 'Sistema'" />
+            <x-detail label="Data do cadastro" :value="$user->created_at->format('d/m/Y H:i')" />
             <x-slot:footer>
                 <livewire:users.edit :user="$user" @saved="$refresh" />
                 {{-- <x-ts-button text="Excluir" icon="trash" color="red" flat /> --}}

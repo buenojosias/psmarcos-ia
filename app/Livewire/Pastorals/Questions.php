@@ -18,7 +18,7 @@ class Questions extends Component
     #[Computed('pastoral')]
     public function getPastoralProperty()
     {
-        return Pastoral::with('user')->findOrFail($this->pastoralId);
+        return Pastoral::findOrFail($this->pastoralId);
     }
 
     public function render()

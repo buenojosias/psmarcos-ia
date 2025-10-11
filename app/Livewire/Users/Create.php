@@ -41,6 +41,7 @@ class Create extends Component
         ]);
 
         $data['password'] = bcrypt($data['password']);
+        $data['created_by'] = auth()->id();
 
         $user = User::create($data);
 

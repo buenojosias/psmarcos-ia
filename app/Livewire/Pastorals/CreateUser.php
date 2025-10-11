@@ -40,6 +40,7 @@ class CreateUser extends Component
             'roles' => 'funções',
         ]);
         $data['password'] = bcrypt($data['password']);
+        $data['created_by'] = auth()->id();
 
         $user = User::create($data);
 
