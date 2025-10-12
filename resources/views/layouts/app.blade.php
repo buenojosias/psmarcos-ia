@@ -63,6 +63,5 @@
         </x-slot:menu>
         {{ $slot }}
     </x-ts-layout>
-
     @livewireScripts
 </body>

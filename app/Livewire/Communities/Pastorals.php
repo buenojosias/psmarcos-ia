@@ -18,14 +18,21 @@ class Pastorals extends Component
     #[Computed('pastorals')]
     public function getPastoralsProperty()
     {
-        return $this->community->pastorals()->with('user')->orderBy('name')->get();
+        $pastorals = $this->community->pastorals()->with('leaders')->orderBy('name')->get();
+        $pastorals->map(function ($pastoral) {
+            $pastoral->leader = $pastoral->leaders->first() ?? null;
+
+            return $pastoral;
+        });
+
+        return $pastorals;
     }
 
     public function render()
     {
         $headers = [
             ['index' => 'pastoral_name', 'label' => 'Nome'],
-            ['index' => 'user.name', 'label' => 'Coordenador(a)'],
+            ['index' => 'leader.name', 'label' => 'Coordenador(a)'],
             ['index' => 'action'],
         ];
 

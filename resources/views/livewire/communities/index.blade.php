@@ -4,7 +4,9 @@
             Nenhuma comunidade adicionada.
         </div>
     @endif
-    <livewire:communities.create @saved="$refresh" />
+    @can('create', App\Models\Community::class)
+        <livewire:communities.create @saved="$refresh" />
+    @endcan
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         @foreach ($this->communities as $community)
             <x-ts-card header="{{ $community->name }}">

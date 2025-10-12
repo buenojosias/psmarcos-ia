@@ -4,7 +4,6 @@ namespace App\Livewire\Communities;
 
 use App\Models\Community;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Index extends Component

@@ -1,31 +1,33 @@
 <?php
 
-namespace App\Livewire\Pastorals;
+namespace App\Livewire\UserPivot;
 
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-class Users extends Component
+class ListUsers extends Component
 {
     use Interactions;
 
-    public $pastoral;
+    public $resource;
+    public $model;
 
-    public function mount($pastoral)
+    public function mount($resource, $model)
     {
-        $this->pastoral = $pastoral;
+        $this->resource = $resource;
+        $this->model = $model;
     }
 
     #[Computed('users')]
     public function getUsersProperty()
     {
-        return $this->pastoral->users;
+        return $this->model->users;
     }
 
     public function render()
     {
-        return view('livewire.pastorals.users');
+        return view('livewire.user-pivot.list-users');
     }
 
     public function toggleLeader($userId)
@@ -40,22 +42,22 @@ class Users extends Component
     public function confirmToggleLeader($userId)
     {
         if (
-            $this->pastoral->users()->updateExistingPivot(
+            $this->model->users()->updateExistingPivot(
                 $userId,
-                ['is_leader' => !$this->pastoral->users->find($userId)->pivot->is_leader]
+                ['is_leader' => !$this->model->users->find($userId)->pivot->is_leader]
             )
         ) {
-            $this->users = $this->pastoral->fresh()->users;
-            $this->toast()->success('Função de líder alterada com sucesso!')->send();
+            $this->users = $this->model->fresh()->users;
+            $this->toast()->success('Função de coordenador alterada com sucesso.')->send();
         } else {
-            $this->toast()->error('Erro ao alterar função de líder!')->send();
+            $this->toast()->error('Erro ao alterar função de coordenador.')->send();
         }
     }
 
     public function detachUser($userId)
     {
         $this->dialog()
-            ->question('Desvincular usuário da pastoral?')
+            ->question('Desvincular usuário?')
             ->confirm(method: 'confirmDetachUser', params: $userId)
             ->cancel('Cancelar')
             ->send();
@@ -63,10 +65,10 @@ class Users extends Component
 
     public function confirmDetachUser($userId)
     {
-        if ($this->pastoral->users()->detach($userId)) {
-            $this->toast()->success('Usuário desvinculado da pastoral com sucesso!')->send();
+        if ($this->model->users()->detach($userId)) {
+            $this->toast()->success('Usuário desvinculado com sucesso.')->send();
         } else {
-            $this->toast()->error('Erro ao desvincular usuário da pastoral!')->send();
+            $this->toast()->error('Erro ao desvincular usuário.')->send();
         }
     }
 }

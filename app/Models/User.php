@@ -52,6 +52,12 @@ class User extends Authenticatable
         return count(array_intersect($roles, $this->getRolesArray())) > 0;
     }
 
+    public function communities(): BelongsToMany
+    {
+        return $this->belongsToMany(Community::class)
+            ->withPivot('is_leader');
+    }
+
     public function pastorals(): BelongsToMany
     {
         return $this->belongsToMany(Pastoral::class)

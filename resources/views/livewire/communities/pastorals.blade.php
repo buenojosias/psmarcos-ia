@@ -1,6 +1,8 @@
 <div class="space-y-4">
     <h2>{{ $community->name }}</h2>
-    <livewire:pastorals.create :community_id="$community->id" />
+    @can('manage', $community)
+        <livewire:pastorals.create :community_id="$community->id" />
+    @endcan
     <x-ts-table :headers="$headers" :rows="$rows">
         @interact('column_pastoral_name', $row)
             <a href="{{ route('pastorals.show', $row) }}">{{ $row->name }}</a>

@@ -1,7 +1,8 @@
 <div class="space-y-4">
     <h2>{{ $community->name }}</h2>
-
-    <livewire:events.create :model="$this->community" @saved="$refresh" />
+    @can('manage', $community)
+        <livewire:events.create :model="$this->community" @saved="$refresh" />
+    @endcan
     <x-ts-table :$headers :$rows>
         @interact('column_event_name', $row)
             <a href="{{ route('events.show', $row) }}">{{ $row->name }}</a>

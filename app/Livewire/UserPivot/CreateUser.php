@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pastorals;
+namespace App\Livewire\UserPivot;
 
 use App\Models\User;
 use Livewire\Component;
@@ -10,20 +10,20 @@ class CreateUser extends Component
 {
     use Interactions;
 
-    public $pastoral;
+    public $model;
     public $name;
     public $email;
     public $password;
     public $roles = ['coordinator'];
 
-    public function mount($pastoral)
+    public function mount($model)
     {
-        $this->pastoral = $pastoral;
+        $this->model = $model;
     }
 
     public function render()
     {
-        return view('livewire.pastorals.create-user');
+        return view('livewire.user-pivot.create-user');
     }
 
     public function save()
@@ -45,8 +45,8 @@ class CreateUser extends Component
         $user = User::create($data);
 
         if ($user) {
-            $this->pastoral->users()->attach($user->id);
-            $this->toast()->success('Usuário cadastrado e vinculado com sucesso!')->send();
+            $this->model->users()->attach($user->id);
+            $this->toast()->success('Usuário cadastrado e vinculado com sucesso.')->send();
             $this->dispatch('saved');
             $this->resetForm();
         }

@@ -2,30 +2,30 @@
 
 namespace App\Providers;
 
-use App\Models\Pastoral;
-use App\Policies\GenericPolicy;
+use App\Models\Community;
+use App\Policies\CommunityPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        Pastoral::class => GenericPolicy::class,
+        Community::class => CommunityPolicy::class,
     ];
 
-    /**
-     * Register services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap services.
-     */
     public function boot(): void
     {
         $this->registerPolicies();
+
+        Gate::before(function ($user, $ability) {
+            if ($user->hasRole('admin')) {
+                return true;
+            }
+        });
     }
 }

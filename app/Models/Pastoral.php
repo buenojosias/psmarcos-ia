@@ -25,6 +25,12 @@ class Pastoral extends Model
             ->withPivot('is_leader');
     }
 
+    public function leaders(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->wherePivot('is_leader', true);
+    }
+
     public function community(): BelongsTo
     {
         return $this->belongsTo(Community::class);

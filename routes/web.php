@@ -18,11 +18,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/comunidades/{community}', App\Livewire\Communities\Show::class)->name('communities.show');
     Route::get('/comunidades/{community}/eventos', App\Livewire\Communities\Events::class)->name('communities.events');
     Route::get('/comunidades/{community}/grupos', App\Livewire\Communities\Pastorals::class)->name('communities.pastorals');
+    Route::get('/comunidades/{community}/perguntas', App\Livewire\Communities\Questions::class)->name('communities.questions');
 
     Route::get('/gmp', App\Livewire\Pastorals\Index::class)->name('pastorals.index');
     Route::get('/gmp/{pastoral}', App\Livewire\Pastorals\Show::class)->name('pastorals.show');
-    Route::get('/gmp/{pastoral}/perguntas', App\Livewire\Pastorals\Questions::class)->name('pastorals.questions');
     Route::get('/gmp/{pastoral}/eventos', App\Livewire\Pastorals\Events::class)->name('pastorals.events');
+    Route::get('/gmp/{pastoral}/perguntas', App\Livewire\Pastorals\Questions::class)->name('pastorals.questions');
 
     Route::get('/eventos', App\Livewire\Events\Index::class)->name('events.index');
     Route::get('/eventos/{event}', App\Livewire\Events\Show::class)->name('events.show');

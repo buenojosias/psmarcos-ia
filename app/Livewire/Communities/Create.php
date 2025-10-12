@@ -21,6 +21,8 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', Community::class);
+
         $data = $this->validate([
             'name' => 'required|string|max:130',
             'alias' => 'required|string|max:30|unique:communities,alias',

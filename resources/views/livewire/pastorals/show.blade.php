@@ -31,7 +31,7 @@
         </div>
         <div class="space-y-4">
             <livewire:notices.list-notices resource="pastoral" :model="$this->pastoral" />
-            <livewire:pastorals.users :pastoral="$this->pastoral" />
+            <livewire:user-pivot.list-users resource="pastorals" :model="$this->pastoral" />
         </div>
     </div>
 </div>

@@ -1,20 +1,18 @@
 <div class="space-y-4">
+    <x-ts-banner text="Criar funções de embed" color="red" />
     <h2>{{ $community->name }}</h2>
     <div class="flex flex-col sm:flex-row gap-4">
         <div class="w-full sm:w-1/2">
             <div class="space-y-4">
-                <x-ts-card header="Sobre" class="space-y-4">
-                    <p>
-                        <span class="font-semibold text-sm text-gray-800 dark:text-gray-200">Abreviação</span><br />
-                        {{ $community->alias }}
-                    </p>
-                    <p>
-                        <span class="font-semibold text-sm text-gray-800 dark:text-gray-200">Endereço</span><br />
-                        {{ $community->address ?? 'Não informado' }}
-                    </p>
-                    <x-slot:footer>
-                        <x-ts-button text="Editar" />
-                    </x-slot>
+                <x-ts-card header="Sobre" class="detail">
+                    <x-detail label="Nome" :value="$community->name" />
+                    <x-detail label="Abreviação" :value="$community->alias" />
+                    <x-detail label="Endereço" :value="$community->address ?? 'Não informado'" />
+                    @can('edit', $community)
+                        <x-slot:footer>
+                            <x-ts-button text="Editar" />
+                        </x-slot>
+                    @endcan
                 </x-ts-card>
                 <x-ts-card header="Missas" class="space-y-4">
                     @forelse ($community->masses as $mass)
@@ -41,6 +39,10 @@
                     <x-ts-stats title="Grupos, Movimentos e Pastorais" :number="$community->pastorals_count" :href="route('communities.pastorals', $community)" />
                     <x-ts-stats title="Eventos" :number="$community->events_count" :href="route('communities.events', $community)" />
                 </div>
+                <x-ts-card>
+                    <a href="{{ route('communities.questions', $community) }}">Perguntas e respostas</a>
+                </x-ts-card>
+                <livewire:user-pivot.list-users resource="communities" :model="$community" />
             </div>
         </div>
     </div>
