@@ -30,7 +30,7 @@
         @can('edit', $model)
             <x-slot:footer class="flex gap-2">
                 <x-ts-button text="Vincular usuário" x-on:click="$modalOpen('attach-user-modal')" class="flex-1" />
-                <x-ts-button text="Cadastrar" x-on:click="$modalOpen('create-user-modal')" class="flex-1" />
+                <x-ts-button text="Cadastrar" x-on:click="$modalOpen('create-user-modal')" color="secondary" class="flex-1" />
             </x-slot>
         @endcan
     </x-ts-card>

@@ -27,7 +27,7 @@
                         <p class="text-center text-gray-500">Nenhuma missa cadastrada.</p>
                     @endforelse
                     <x-slot:footer>
-                        <x-ts-button text="Gerenciar missas" :href="route('masses.index')" sm />
+                        <x-ts-link text="Ver todas" :href="route('masses.index')" />
                     </x-slot>
                 </x-ts-card>
             </div>
@@ -35,7 +35,7 @@
         <div class="w-full sm:w-1/2">
             <div class="space-y-4">
                 <livewire:notices.list-notices resource="comunidade" :model="$community" />
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <x-ts-stats title="Grupos, Movimentos e Pastorais" :number="$community->pastorals_count" :href="route('communities.pastorals', $community)" />
                     <x-ts-stats title="Eventos" :number="$community->events_count" :href="route('communities.events', $community)" />
                 </div>
