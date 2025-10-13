@@ -1,14 +1,30 @@
 <div class="space-y-4">
-    <livewire:masses.create @saved="$refresh" />
+    @can('create', App\Models\Mass::class)
+        <livewire:masses.create @saved="$refresh" />
+    @endcan
     <x-ts-table :$headers :$rows>
-        {{-- @interact('column_event_name', $row)
-            <a href="{{ route('events.show', $row) }}">{{ $row->name }}</a>
-        @endinteract --}}
+        @interact('column_note', $row)
+            @if ($row['note'])
+                <x-ts-tooltip :text="$row['note']" icon="information-circle" />
+            @endif
+        @endinteract
         @interact('column_action', $row)
+        @hasanyrole(['admin', 'pascom', 'coordinator'])
             <x-ts-dropdown icon="ellipsis-vertical">
-                <x-ts-dropdown.items x-on:click="$dispatch('delete-mass', { mass: {{ $row['id'] }} })">Delete</x-ts-dropdown.item>
+                @can('edit')
+                    <x-ts-dropdown.items
+                        x-on:click="$dispatch('edit-mass', { mass: {{ $row['id'] }} })">Editar</x-ts-dropdown.item>
+                @endcan
+                @can('delete')
+                    <x-ts-dropdown.items
+                        x-on:click="$dispatch('delete-mass', { mass: {{ $row['id'] }} })">Excluir</x-ts-dropdown.item>
+                @endcan
             </x-ts-dropdown>
+            @endhasanyrole
         @endinteract
     </x-ts-table>
-    <livewire:masses.delete @deleted="$refresh" />
+    <livewire:masses.edit @saved="$refresh" />
+    @can('delete', App\Models\Mass::class)
+        <livewire:masses.delete @deleted="$refresh" />
+    @endcan
 </div>

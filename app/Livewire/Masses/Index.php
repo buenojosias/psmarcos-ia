@@ -34,6 +34,7 @@ class Index extends Component
             ['index' => 'weekday_label', 'label' => 'Dia da semana'],
             ['index' => 'formatted_time', 'label' => 'Hora'],
             ['index' => 'community.name', 'label' => 'Comunidade'],
+            ['index' => 'note'],
             ['index' => 'action'],
         ];
 

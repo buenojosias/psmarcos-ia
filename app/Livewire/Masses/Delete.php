@@ -12,11 +12,13 @@ class Delete extends Component
     use Interactions;
 
     public $massId;
+    public $mass;
 
     #[On('delete-mass')]
     public function deleteMass($mass)
     {
         $this->massId = $mass;
+        $this->mass = Mass::find($mass);
         $this->dialog()
             ->question('Deseja realmente excluir esta missa?')
             ->confirm(method: 'confirmed', params: 'Confirmed Successfully')
@@ -31,7 +33,7 @@ class Delete extends Component
             ->where('model_id', $this->massId)
             ->delete();
 
-        if (Mass::find($this->massId)->delete()) {
+        if ($this->mass->delete()) {
             $this->toast()->success('Missa excluída com sucesso!')->send();
             $this->dispatch('deleted');
         } else {
