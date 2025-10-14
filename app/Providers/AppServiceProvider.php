@@ -36,6 +36,11 @@ class AppServiceProvider extends ServiceProvider
             ->block('main', 'mx-auto max-w-full p-4 md:p-6');
 
         TallStackUi::personalize()
+            ->table()
+            ->block('table.td')
+            ->replace('py-4', 'py-3');
+
+        TallStackUi::personalize()
             ->button()
             ->block('wrapper.sizes.md')
             ->replace('text-md', 'text-sm')

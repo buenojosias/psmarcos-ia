@@ -1,5 +1,7 @@
 <div class="space-y-4">
-    <livewire:pastorals.create @saved="$refresh" />
+    @can('create', App\Models\Pastoral::class)
+        <livewire:pastorals.create @saved="$refresh" />
+    @endcan
     <x-ts-table :$headers :$rows>
         @interact('column_pastoral_name', $row)
             <a href="{{ route('pastorals.show', $row) }}">{{ $row->name }}</a>

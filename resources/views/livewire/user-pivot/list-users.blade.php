@@ -5,7 +5,12 @@
                 <div
                     class="p-4 border dark:border-none rounded-lg flex items-center justify-between dark:bg-gray-800 shadow-sm">
                     <div>
-                        <p class="font-semibold">{{ $user->name }}</p>
+                        <p class="font-semibold">
+                            {{ $user->name }}
+                            @if ($user->id === auth()->id())
+                                <small>(você)</small>
+                            @endif
+                        </p>
                         <p class="text-sm text-gray-600">{{ $user->email }}</p>
                         <p class="text-sm text-gray-600">
                             {{ $user->pivot->is_leader ? 'Coordenador(a)' : 'Membro' }}

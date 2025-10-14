@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Community;
+use App\Models\Pastoral;
 use App\Models\User;
 
-class CommunityPolicy
+class PastoralPolicy
 {
     public function __construct() {
         //
@@ -16,21 +16,21 @@ class CommunityPolicy
         return $user->hasRole('pascom');
     }
 
-    public function edit(User $user, Community $community)
+    public function edit(User $user, Pastoral $pastoral)
     {
         if ($user->hasRole('pascom')) {
             return true;
         }
 
-        return ($user->hasRole('coordinator') && $community->leaders->contains($user));
+        return ($user->hasRole('coordinator') && $pastoral->leaders->contains($user));
     }
 
-    public function manage(User $user, Community $community)
+    public function manage(User $user, Pastoral $pastoral)
     {
         if ($user->hasRole('pascom')) {
             return true;
         }
 
-        return ($user->hasRole('coordinator') && $community->users->contains($user));
+        return ($user->hasRole('coordinator') && $pastoral->leaders->contains($user));
     }
 }

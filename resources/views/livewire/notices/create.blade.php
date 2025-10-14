@@ -7,8 +7,8 @@
             <x-ts-date wire:model="expires_at" label="Válido até *" format="DD/MM/YYYY" :min-date="now()->addDay()" hint="O aviso será excluído após esta data" required />
         </form>
         <x-slot name="footer">
-            <x-ts-button text="Cancelar" x-on:click="$modalClose('create-notice-modal')" color="secondary" />
-            <x-ts-button text="Salvar" wire:click="save" />
+            <x-ts-button text="Cancelar" x-on:click="$modalClose('create-notice-modal')" color="secondary" loading />
+            <x-ts-button text="Salvar" wire:click="save" loading />
         </x-slot>
     </x-ts-modal>
 </div>
