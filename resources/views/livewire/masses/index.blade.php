@@ -9,21 +9,23 @@
             @endif
         @endinteract
         @interact('column_action', $row)
-        @hasanyrole(['admin', 'pascom', 'coordinator'])
-            <x-ts-dropdown icon="ellipsis-vertical">
-                @can('edit')
-                    <x-ts-dropdown.items
-                        x-on:click="$dispatch('edit-mass', { mass: {{ $row['id'] }} })">Editar</x-ts-dropdown.item>
-                @endcan
-                @can('delete')
-                    <x-ts-dropdown.items
-                        x-on:click="$dispatch('delete-mass', { mass: {{ $row['id'] }} })">Excluir</x-ts-dropdown.item>
-                @endcan
-            </x-ts-dropdown>
+            @hasanyrole(['admin', 'pascom', 'coordinator'])
+                <x-ts-dropdown icon="ellipsis-vertical">
+                    @can('edit', $row)
+                        <x-ts-dropdown.items
+                            x-on:click="$dispatch('edit-mass', { mass: {{ $row['id'] }} })">Editar</x-ts-dropdown.item>
+                    @endcan
+                    @can('delete')
+                        <x-ts-dropdown.items
+                            x-on:click="$dispatch('delete-mass', { mass: {{ $row['id'] }} })">Excluir</x-ts-dropdown.item>
+                    @endcan
+                </x-ts-dropdown>
             @endhasanyrole
         @endinteract
     </x-ts-table>
-    <livewire:masses.edit @saved="$refresh" />
+    @hasanyrole(['admin', 'pascom', 'coordinator'])
+        <livewire:masses.edit @saved="$refresh" />
+    @endhasanyrole
     @can('delete', App\Models\Mass::class)
         <livewire:masses.delete @deleted="$refresh" />
     @endcan

@@ -37,28 +37,6 @@ class Edit extends Component
         $this->dispatch('open-modal');
     }
 
-    // public function loadCommunities()
-    // {
-    //     if (!empty($this->communities)) {
-    //         return;
-    //     }
-    //     $this->communities = Community::query()
-    //         ->select(['id', 'name'])
-    //         ->when(!auth()->user()->hasAnyRole(['admin', 'pascom']), function ($query) {
-    //             $query->whereHas('leaders', function ($q) {
-    //                 $q->where('user_id', auth()->id());
-    //             });
-    //         })
-    //         ->get()
-    //         ->toArray();
-
-    //     if (!auth()->user()->hasAnyRole(['admin', 'pascom']) && empty($this->communities)) {
-    //         abort(403, 'Você não tem permissão para adicionar missas.');
-    //     }
-
-    //     $this->communities = array_merge([['id' => null, 'name' => 'Selecione uma comunidade']], $this->communities);
-    // }
-
     public function render()
     {
         return view('livewire.masses.edit');
