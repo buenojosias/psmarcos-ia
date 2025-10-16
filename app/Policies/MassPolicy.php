@@ -14,7 +14,7 @@ class MassPolicy
 
     public function create(User $user)
     {
-        return $user->hasAnyRole(['pascom', 'coordinator']);
+        return $user->hasAnyRole(['pascom']);
     }
 
     public function edit(User $user, Mass $mass)

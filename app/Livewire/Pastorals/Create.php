@@ -59,10 +59,15 @@ class Create extends Component
             'description' => 'descrição',
         ]);
         $data['slug'] = Str::slug($data['name'], '_');
+        unset($data['user_id']);
 
         $pastoral = Pastoral::create($data);
 
         if ($pastoral) {
+            if (!is_null(($this->user_id))) {
+                $pastoral->users()->attach($this->user_id, ['is_leader' => true]);
+            }
+
             $this->toast()->success('Grupo, movimento ou pastoral adicionado com sucesso!')->send();
             $this->dispatch('saved');
             $this->resetForm();
