@@ -9,7 +9,7 @@
             @endif
         @endinteract
         @interact('column_action', $row)
-            @hasanyrole(['admin', 'pascom', 'coordinator'])
+            @if((auth()->user()->can('edit', $row) || auth()->user()->can('delete')))
                 <x-ts-dropdown icon="ellipsis-vertical">
                     @can('edit', $row)
                         <x-ts-dropdown.items
@@ -20,7 +20,7 @@
                             x-on:click="$dispatch('delete-mass', { mass: {{ $row['id'] }} })">Excluir</x-ts-dropdown.item>
                     @endcan
                 </x-ts-dropdown>
-            @endhasanyrole
+            @endif
         @endinteract
     </x-ts-table>
     @hasanyrole(['admin', 'pascom', 'coordinator'])
