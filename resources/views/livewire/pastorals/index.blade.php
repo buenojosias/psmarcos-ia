@@ -2,6 +2,7 @@
     @can('create', App\Models\Pastoral::class)
         <livewire:pastorals.create @saved="$refresh" />
     @endcan
+    <x-ts-toggle label="Exibir todas" wire:model.live="showAll" />
     <x-ts-table :$headers :$rows>
         @interact('column_pastoral_name', $row)
             <a href="{{ route('pastorals.show', $row) }}">{{ $row->name }}</a>

@@ -8,10 +8,20 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    public bool $showAll = false;
+
     #[Computed('pastorals')]
     public function getPastoralsProperty()
     {
-        $pastorals = Pastoral::orderBy('name')->with('community', 'leaders')->get();
+        $pastorals = Pastoral::query()
+            ->orderBy('name')
+            ->when(!$this->showAll, function ($query) {
+                return $query->whereHas('users', function ($q) {
+                    $q->where('user_id', auth()->id());
+                });
+            })
+            ->with('community', 'leaders')
+            ->get();
 
         $pastorals->map(function ($pastoral) {
             $pastoral->coordinator = $pastoral->leaders->first() ?? null;
