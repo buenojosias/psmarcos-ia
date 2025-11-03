@@ -1,8 +1,4 @@
 <div>
-    <div class="flex space-x-2">
-        <x-ts-button text="Editar" x-on:click="$modalOpen('edit-event-modal')" />
-        <x-ts-button text="Perguntas e respostas" :href="route('events.questions', $this->event)" color="secondary" />
-    </div>
 
     <x-ts-modal id="edit-event-modal" title="Editar" size="lg">
         <form id="edit-event-form" wire:submit="save" class="space-y-4">

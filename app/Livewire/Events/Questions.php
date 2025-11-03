@@ -24,6 +24,6 @@ class Questions extends Component
     public function render()
     {
         return view('livewire.events.questions')
-            ->title($this->event->name);
+            ->title('Perguntas e respostas sobre o evento');
     }
 }

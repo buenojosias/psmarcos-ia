@@ -30,15 +30,23 @@
                     </div>
                 </div>
                 <x-slot:footer>
-                    <livewire:events.edit :event="$this->event" @saved="$refresh" />
+                    <div class="flex space-x-2">
+                        @can('manage', $this->event)
+                            <x-ts-button text="Editar" x-on:click="$modalOpen('edit-event-modal')" />
+                        @endcan
+                        <x-ts-button text="Perguntas e respostas" :href="route('events.questions', $this->event)" color="secondary" />
+                    </div>
                 </x-slot>
             </x-ts-card>
         </div>
         <livewire:notices.list-notices resource="event" :model="$this->event" />
         {{-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         <x-ts-stats title="Perguntas cadastradas" :number="$this->event->questions_count" :href="route('pastorals.questions', $this->event)" />
-        <x-ts-stats title="Eventos" :number="$this->event->events_count" :href="route('pastorals.events', $this->event)" />
-        <x-ts-stats title="Avisos" :number="100" />
-    </div> --}}
+            <x-ts-stats title="Eventos" :number="$this->event->events_count" :href="route('pastorals.events', $this->event)" />
+                <x-ts-stats title="Avisos" :number="100" />
+            </div> --}}
     </div>
+    @can('manage', $this->event)
+        <livewire:events.edit :event="$this->event" @saved="$refresh" />
+    @endcan
 </div>
