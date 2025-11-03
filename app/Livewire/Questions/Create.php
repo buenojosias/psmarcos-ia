@@ -13,22 +13,16 @@ class Create extends Component
 
     public $resource;
     public $model;
-    public $questions;
-    public $qa;
+    public $question;
+    public $answer;
+    public $suggestion_id;
+    public $suggestions = [];
+    public $temp_id;
 
     public function mount($model, $resource)
     {
         $this->model = $model;
         $this->resource = $resource;
-        $this->questions = collect([
-            [
-                'id' => rand(1000, 9000),
-                'question' => '',
-                'answer' => '',
-                'suggestion_id' => null,
-            ],
-        ])->toArray();
-        // $this->addQuestion();
     }
 
     public function render()
@@ -36,63 +30,83 @@ class Create extends Component
         return view('livewire.questions.create');
     }
 
-    public function addQuestion()
-    {
-        $this->questions[] = [
-            'id' => rand(1000, 9000),
-            'question' => '',
-            'answer' => '',
-            'suggestion_id' => null,
-        ];
-    }
-
     #[On('addSuggestion')]
-    public function addSuggestion($question)
+    public function addSuggestion($suggestion)
     {
-        $this->questions[] = [
-            'id' => rand(1000, 9000),
-            'question' => is_array($question) ? $question['content'] : $question,
+        $temp_id = rand(1000, 9000);
+        $this->suggestions[] = [
+            'question' => is_array($suggestion) ? $suggestion['content'] : $suggestion,
             'answer' => '',
-            'suggestion_id' => $question['id'] ?? null,
+            'suggestion_id' => $suggestion['id'] ?? null,
+            'temp_id' => $temp_id,
         ];
-    }
 
-    public function saveQuestion($id)
-    {
-        $this->resetValidation();
-        $this->qa = $this->questions[array_search($id, array_column($this->questions, 'id'))];
-
-        // Substituir ## pelo model->name
-        $this->qa['question'] = str_replace('##', $this->model->name, $this->qa['question']);
-        $this->qa['answer'] = str_replace('##', $this->model->name, $this->qa['answer']);
-
-        $data = $this->validate([
-            'qa.question' => 'required|string|max:255',
-            'qa.answer' => 'required|string|max:255',
-            'qa.suggestion_id' => 'nullable|integer',
-        ], attributes: [
-            'qa.question' => 'pergunta',
-            'qa.answer' => 'resposta',
-            'qa.suggestion_id' => 'sugestão',
-        ]);
-        $data['qa']['model_id'] = $this->model->id;
-
-        $created = $this->model->questions()->create($data['qa']);
-        if ($created) {
-            if ($this->qa['suggestion_id']) {
-                Suggestion::find($this->qa['suggestion_id'])->increment('usages');
-            }
-
-            $this->reset('qa');
-            $this->toast()->success('Pergunta criada com sucesso!')->send();
-            $this->removeQuestion($id);
-            $this->dispatch('questionCreated');
+        if (empty($this->question)) {
+            $this->setSuggestionProperties();
         }
     }
 
-    public function removeQuestion($id)
+    public function setSuggestionProperties($temp_id = null)
     {
-        unset($this->questions[array_search($id, array_column($this->questions, 'id'))]);
-        $this->questions = array_values($this->questions);
+        if ($temp_id) {
+            $this->suggestions = array_filter($this->suggestions, function ($s) use ($temp_id) {
+                return $s['temp_id'] !== $temp_id;
+            });
+            $this->suggestions = array_values($this->suggestions);
+        }
+
+        $suggestion = $this->suggestions[0] ?? null;
+        if ($suggestion) {
+            $this->question = $suggestion['question'];
+            $this->suggestion_id = $suggestion['suggestion_id'];
+            $this->temp_id = $suggestion['temp_id'];
+        }
+    }
+
+    public function saveQuestion()
+    {
+        // Substituir ## pelo model->name
+        $this->question = str_replace('##', $this->model->name, $this->question);
+        $this->answer = str_replace('##', $this->model->name, $this->answer);
+
+        $data = $this->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string|max:255',
+            'suggestion_id' => 'nullable|integer',
+        ], attributes: [
+            'question' => 'pergunta',
+            'answer' => 'resposta',
+            'suggestion_id' => 'sugestão',
+        ]);
+        $data['model_id'] = $this->model->id;
+
+        $created = $this->model->questions()->create($data);
+        if ($created) {
+            if ($this->suggestion_id) {
+                Suggestion::find($this->suggestion_id)->increment('usages');
+            }
+
+            $temp_id_to_remove = $this->temp_id;
+
+            $this->reset('question', 'answer', 'suggestion_id', 'temp_id');
+            $this->toast()->success('Pergunta criada com sucesso.')->send();
+            $this->dispatch('questionCreated');
+
+            $this->setSuggestionProperties($temp_id_to_remove ?? null);
+        }
+    }
+
+    public function removeSuggestion($temp_id)
+    {
+        $this->suggestions = array_filter($this->suggestions, function ($s) use ($temp_id) {
+            return $s['temp_id'] !== $temp_id;
+        });
+        $this->suggestions = array_values($this->suggestions);
+
+        if ($this->temp_id == $temp_id) {
+            $temp_id_to_remove = $this->temp_id;
+            $this->reset('question', 'answer', 'suggestion_id', 'temp_id');
+            $this->setSuggestionProperties($temp_id_to_remove ?? null);
+        }
     }
 }

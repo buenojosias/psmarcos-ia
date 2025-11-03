@@ -1,7 +1,5 @@
 <div>
-    <x-ts-button text="Sugestões de perguntas" x-on:click="$modalOpen('default-suggestions')" icon="light-bulb" sm />
-    <x-ts-modal title="Sugestões de perguntas" id="default-suggestions" max-width="2xl"
-        x-on:open="$wire.loadSuggestions()">
+    <x-ts-modal title="Sugestões de perguntas" id="default-suggestions" max-width="2xl" x-on:open="$wire.loadSuggestions()">
         <ul>
             @foreach ($suggestions as $index => $suggestion)
                 <li class="py-1 flex justify-between items-center border-b border-gray-200">

@@ -8,7 +8,7 @@ class GenerateAiQuestions
 {
     public static function generate(string $resource, string $name, string $description = null, array $questions)
     {
-        if (is_null($description) && empty($questions)) {
+        if (is_null($description) && count($questions) < 3) {
             return null;
         }
 

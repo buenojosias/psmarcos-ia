@@ -1,5 +1,4 @@
 <div>
-    <x-ts-button text="Gerar perguntas com IA" x-on:click="$modalOpen('ai-suggestions')" icon="sparkles" sm />
     <x-ts-modal title="Sugestões de perguntas" id="ai-suggestions" max-width="2xl"
         x-on:open="$wire.generateQuestions()">
         <ul>
