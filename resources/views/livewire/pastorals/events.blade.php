@@ -1,5 +1,10 @@
 <div class="space-y-4">
-    <h2>{{ $pastoral->name }}</h2>
+    <h2 class="flex items-center gap-2">
+        <a href="{{ route('pastorals.show', $this->pastoral) }}">
+            <x-ts-icon name="arrow-left" class="w-4 h-4 text-gray-700 dark:text-gray-300" />
+        </a>
+        {{ $this->pastoral->name }}
+    </h2>
     @can('manage', $pastoral)
         <livewire:events.create :model="$this->pastoral" @saved="$refresh" />
     @endcan

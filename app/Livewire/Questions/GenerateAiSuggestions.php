@@ -6,7 +6,7 @@ use App\Services\GenerateAiQuestions;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-class GenerateSuggestions extends Component
+class GenerateAiSuggestions extends Component
 {
     use Interactions;
 
@@ -23,7 +23,7 @@ class GenerateSuggestions extends Component
 
     public function render()
     {
-        return view('livewire.questions.generate-suggestions');
+        return view('livewire.questions.generate-ai-suggestions');
     }
 
     public function generateQuestions()

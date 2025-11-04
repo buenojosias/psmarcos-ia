@@ -35,5 +35,5 @@
         </x-slot>
     </x-ts-card>
     <livewire:questions.default-suggestions :resource="$resource" :model="$model" />
-    <livewire:questions.generate-suggestions :resource="$resource" :model="$model" />
+    <livewire:questions.generate-ai-suggestions :resource="$resource" :model="$model" />
 </div>

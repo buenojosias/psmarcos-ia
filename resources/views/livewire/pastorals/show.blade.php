@@ -6,8 +6,12 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <div>
                         <p class="mb-4">
-                            <strong>Coordenador(a)</strong><br>
-                            {{ $this->pastoral->users->where('is_leader', true)->first()->name ?? 'Coordenador(a) não informado(a)' }}
+                            <strong>Coordenador(es)</strong><br>
+                            @forelse ($this->pastoral->leaders as $leader)
+                                • {{ $leader->name }}@if (! $loop->last)<br> @endif
+                            @empty
+                                Nenhum coordenador(a) informado(a)
+                            @endforelse
                         </p>
                         <p>
                             <strong>Comunidade</strong><br>

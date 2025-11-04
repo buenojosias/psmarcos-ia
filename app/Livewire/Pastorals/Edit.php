@@ -53,6 +53,9 @@ class Edit extends Component
             'community_id' => 'comunidade',
             'description' => 'descrição',
         ]);
+        if ($data['community_id'] == '') {
+            $data['community_id'] = null;
+        }
         if ($data['description'] == '') {
             $data['description'] = null;
         }

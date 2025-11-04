@@ -25,7 +25,8 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.events.show')
+        $route_name = \Str::plural($this->event->eventable_type) . '.show';
+        return view('livewire.events.show', compact('route_name'))
             ->title('Evento');
     }
 }

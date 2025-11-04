@@ -22,6 +22,7 @@ class Index extends Component
 
         $notices->map(function ($notice) {
             $notice->formatted_expires_at = Carbon::parse($notice->expires_at)->format('d/m/Y');
+            $notice->route_name = \Str::plural($notice->notifiable_type);
             return $notice;
         });
 
@@ -32,7 +33,7 @@ class Index extends Component
     {
         $headers = [
             ['index' => 'notice_content', 'label' => 'Aviso'],
-            ['index' => 'notifiable.name', 'label' => 'Vinculado a'],
+            ['index' => 'v', 'label' => 'Vinculada a'],
             ['index' => 'formatted_expires_at', 'label' => 'Expira em'],
             ['index' => 'action'],
         ];

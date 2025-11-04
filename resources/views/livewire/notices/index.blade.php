@@ -4,6 +4,9 @@
         @interact('column_notice_content', $row)
             <p class="!text-wrap">{{ $row->content }}</p>
         @endinteract
+        @interact('column_v', $row)
+            <a href="{{ route($row->route_name . '.questions', $row->notifiable->id) }}">{{ $row->notifiable->name }}</a>
+        @endinteract
         {{-- @interact('column_action', $row)
             <x-ts-dropdown icon="ellipsis-vertical">
                 <x-ts-dropdown.items

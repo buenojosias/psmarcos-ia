@@ -21,7 +21,14 @@
                         </p>
                         <p>
                             <strong>Organizador</strong><br>
-                            {{ $this->event->eventable->name ?? 'Não informado' }}
+                            @if ($this->event->eventable)
+                                {{ $this->event->eventable->name }}
+                                <a href="{{ route($route_name, $this->event->eventable) }}">
+                                    <x-ts-icon name="arrow-top-right-on-square" class="w-3 h-3 ml-1 inline text-gray-700 dark:text-gray-300" />
+                                </a>
+                            @else
+                                Não informado
+                            @endif
                         </p>
                     </div>
                     <div class="sm:col-span-2">

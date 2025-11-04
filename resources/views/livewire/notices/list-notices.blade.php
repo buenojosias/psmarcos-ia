@@ -3,7 +3,7 @@
         @forelse ($this->notices as $notice)
             <div
                 class="p-4 border dark:border-none rounded-lg flex items-center justify-between gap-2 dark:bg-gray-800 shadow-sm">
-                <div class="space-y-1">
+                <div class="space-y-2">
                     <p class="font-semibold">{{ $notice->content }}</p>
                     <x-ts-badge :text="'Válido até: ' . \Carbon\Carbon::parse($notice->expires_at)->format('d/m/Y')" color="gray" />
                 </div>
