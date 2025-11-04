@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('testes', App\Http\Controllers\TestsController::class);
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/', App\Livewire\Dashboard::class)->name('dashboard');
 
     Route::get('/perfil', function () {
         return view('profile');
