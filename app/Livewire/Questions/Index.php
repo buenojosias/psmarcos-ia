@@ -5,6 +5,7 @@ namespace App\Livewire\Questions;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,6 +17,7 @@ class Index extends Component
     public ?string $search = null;
     public ?string $questionable = null;
     public ?array $selected = [];
+    public bool $onlyUnprocessed = false;
 
     #[Computed('questions')]
     public function getQuestionsProperty()
@@ -26,6 +28,9 @@ class Index extends Component
             })
             ->when($this->questionable, function (Builder $query) {
                 return $query->where('questionable_type', '=', \Str::singular(ucfirst($this->questionable)));
+            })
+            ->when($this->onlyUnprocessed, function (Builder $query) {
+                return $query->where('status', 'pending');
             })
             ->with('questionable')
             ->paginate($this->quantity)
@@ -38,11 +43,19 @@ class Index extends Component
         return $questions;
     }
 
+    #[On('filterUpdated')]
+    public function updatedFilter($data)
+    {
+        $this->resetPage();
+        $this->onlyUnprocessed = $data['onlyUnprocessed'];
+        $this->questionable = $data['questionable'];
+    }
+
     public function render()
     {
         $headers = [
             ['index' => 'qa', 'label' => 'Pergunta e resposta'],
-            ['index' => 'v', 'label' => 'Vinculado a'],
+            ['index' => 'v', 'label' => 'Vinculada a'],
             ['index' => 'action'],
         ];
 

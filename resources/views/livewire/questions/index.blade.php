@@ -2,11 +2,11 @@
     <div class="flex justify-between gap-4 items-end">
         <x-ts-select.native label="Quantidade por página" wire:model.live="quantity" :options="[5, 10, 25, 50, 100]" />
         <div class="flex items-center gap-2">
-            <x-ts-button text="Adicionar pergunta" />
-            <x-ts-button icon="funnel" flat />
+            {{-- <x-ts-button text="Adicionar pergunta" /> --}}
+            <x-ts-button x-on:click="$slideOpen('filter-slide')" icon="funnel" flat />
         </div>
     </div>
-    <x-ts-table :$headers :$rows paginate selectable wire:model="selected" loading>
+    <x-ts-table :$headers :$rows paginate loading>
         @interact('column_qa', $row)
             <div class="!text-wrap">
                 <strong>{{ $row->question }}</strong><br>
@@ -22,4 +22,5 @@
             {{-- <x-ts-button wire:click="confirm('delete', {{ $row->id }})" icon="trash" sm flat negative /> --}}
         @endinteract
     </x-ts-table>
+    <livewire:questions.slide-filter />
 </div>

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Suggestion;
+
 class DeleteQuestionService
 {
     static public function execute(int $id)
@@ -10,6 +12,10 @@ class DeleteQuestionService
 
         if (!$question) {
             return false;
+        }
+
+        if ($question->suggestion_id) {
+            Suggestion::find($question->suggestion_id)->decrement('usages');
         }
 
         if ($question->status->value == 'processed') {
