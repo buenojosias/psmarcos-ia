@@ -1,5 +1,4 @@
 <div class="space-y-4">
-    <x-ts-banner text="Criar funções de embed" color="red" />
     <h2>{{ $community->name }}</h2>
     <div class="flex flex-col sm:flex-row gap-4">
         <div class="w-full sm:w-1/2">

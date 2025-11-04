@@ -20,8 +20,8 @@ class Index extends Component
 
         $masses->map(function ($mass) {
             $mass->weekday_label = $mass->weekday ? $mass->weekday->getLabel() : null;
-            $mass->formatted_time = $mass->time ? $mass->time->format('H\hi') : null;
-            $mass->formatted_time = str_replace('00', '', $mass->formatted_time);
+            $mass->formatted_time = $mass->time ? $mass->time->format('H:i') : null;
+            // $mass->formatted_time = str_replace('00', '', $mass->formatted_time);
             return $mass;
         });
 

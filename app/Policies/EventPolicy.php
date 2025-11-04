@@ -22,7 +22,7 @@ class EventPolicy
             return true;
         }
 
-        return ($user->hasRole('coordinator') && $event->eventable->users->contains($user));
+        return $event->eventable?->users->contains($user);
     }
 
     public function manage(User $user, Event $event)
@@ -31,6 +31,6 @@ class EventPolicy
             return true;
         }
 
-        return ($user->hasRole('coordinator') && $event->eventable->users->contains($user));
+        return $event->eventable?->users->contains($user);
     }
 }
