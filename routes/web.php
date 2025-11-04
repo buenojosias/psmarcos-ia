@@ -32,7 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/missas', App\Livewire\Masses\Index::class)->name('masses.index');
 
     Route::get('/perguntas', App\Livewire\Questions\Index::class)->name('questions.index')->middleware(['role:admin|pascom']);
-    Route::get('/perguntas/sugestoes', App\Livewire\Questions\ListSuggestions::class)->name('questions.suggestions')->middleware(['role:admin|pascom']);
+    Route::get('/perguntas/sugestoes', App\Livewire\Suggestions\Index::class)->name('questions.suggestions')->middleware(['role:admin|pascom']);
 
     Route::get('/avisos', App\Livewire\Notices\Index::class)->name('notices.index');
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Questions;
+namespace App\Livewire\Suggestions;
 
 use App\Enums\SuggestionTypeEnum;
 use App\Models\Suggestion;
@@ -9,7 +9,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListSuggestions extends Component
+class Index extends Component
 {
     use WithPagination;
 
@@ -46,7 +46,7 @@ class ListSuggestions extends Component
 
         $rows = $this->suggestions;
 
-        return view('livewire.questions.list-suggestions', compact('headers', 'rows', 'types'))
+        return view('livewire.suggestions.index', compact('headers', 'rows', 'types'))
             ->title('Sugestões de perguntas');
     }
 }

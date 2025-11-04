@@ -5,7 +5,7 @@
             <x-ts-select.native label="Tipo de sugestão" wire:model.live="type" :options="$types" />
         </div>
         <div class="flex items-center gap-2">
-            <livewire:questions.create-suggestion @saved="$refresh" />
+            <livewire:suggestions.create @saved="$refresh" />
         </div>
     </div>
     <x-ts-table :$headers :$rows paginate loading>
@@ -14,6 +14,6 @@
             <x-ts-button x-on:click="$dispatch('delete-suggestion', { suggestion: {{ $row->id }} })" icon="trash" color="red" sm flat />
         @endinteract
     </x-ts-table>
-    <livewire:questions.edit-suggestion @saved="$refresh" />
-    <livewire:questions.delete-suggestion @deleted="$refresh" />
+    <livewire:suggestions.edit @saved="$refresh" />
+    <livewire:suggestions.delete @deleted="$refresh" />
 </div>

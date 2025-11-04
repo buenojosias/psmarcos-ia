@@ -1,17 +1,29 @@
 <?php
 
-namespace App\Livewire\Questions;
+namespace App\Livewire\Suggestions;
 
 use App\Models\Suggestion;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-class CreateSuggestion extends Component
+class Edit extends Component
 {
     use Interactions;
 
+    public $suggestion;
     public ?string $type = null;
     public ?string $content = null;
+
+    #[On('edit-suggestion')]
+    public function editSuggestion(Suggestion $suggestion)
+    {
+        $this->suggestion = $suggestion;
+        $this->type = $suggestion->type->value;
+        $this->content = $suggestion->content;
+
+        $this->dispatch('open-modal');
+    }
 
     public function save()
     {
@@ -28,17 +40,17 @@ class CreateSuggestion extends Component
             return;
         }
 
-        if (Suggestion::create($data)) {
-            $this->toast()->success('Sugestão criada com sucesso!')->send();
+        if ($this->suggestion->update($data)) {
+            $this->toast()->success('Sugestão atualizada com sucesso!')->send();
             $this->dispatch('saved');
             $this->reset(['type', 'content']);
         } else {
-            $this->toast()->error('Erro ao criar sugestão. Tente novamente.')->send();
+            $this->toast()->error('Erro ao atualizar sugestão. Tente novamente.')->send();
         }
     }
 
     public function render()
     {
-        return view('livewire.questions.create-suggestion');
+        return view('livewire.suggestions.edit');
     }
 }

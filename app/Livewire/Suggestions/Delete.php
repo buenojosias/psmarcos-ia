@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Livewire\Questions;
+namespace App\Livewire\Suggestions;
 
 use App\Models\Suggestion;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
-class DeleteSuggestion extends Component
+class Delete extends Component
 {
     use Interactions;
 
@@ -38,6 +38,6 @@ class DeleteSuggestion extends Component
 
     public function render()
     {
-        return view('livewire.questions.delete-suggestion');
+        return view('livewire.suggestions.delete');
     }
 }
