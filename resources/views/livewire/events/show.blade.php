@@ -7,12 +7,12 @@
                     <div>
                         <p class="mb-4">
                             <strong>{{ $this->event->ends_at ? 'Início' : 'Data' }}</strong><br>
-                            {{ Carbon\Carbon::parse($this->event->starts_at)->format('d/m/Y') }}
+                            {{ Carbon\Carbon::parse($this->event->starts_at)->format('d/m/Y - H:i') }}
                         </p>
                         @if ($this->event->ends_at)
                             <p class="mb-4">
                                 <strong>Encerramento</strong><br>
-                                {{ $this->event->ends_at ? Carbon\Carbon::parse($this->event->ends_at)->format('d/m/Y') : 'Data não informada' }}
+                                {{ $this->event->ends_at ? Carbon\Carbon::parse($this->event->ends_at)->format('d/m/Y - H:i') : 'Data não informada' }}
                             </p>
                         @endif
                         <p class="mb-4">

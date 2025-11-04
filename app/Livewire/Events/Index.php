@@ -18,6 +18,7 @@ class Index extends Component
         $events = Event::with('eventable')->orderBy('starts_at')->paginate();
         $events->map(function ($event) {
             $event->date = Carbon::parse($event->starts_at)->format('d/m/Y');
+            $event->route_name = \Str::plural($event->eventable_type);
 
             return $event;
         });
@@ -30,7 +31,7 @@ class Index extends Component
         $headers = [
             ['index' => 'event_name', 'label' => 'Nome do evento'],
             ['index' => 'date', 'label' => 'Data'],
-            ['index' => 'eventable.name', 'label' => 'Vinculado a'],
+            ['index' => 'v', 'label' => 'Organizado por'],
             ['index' => 'action'],
         ];
 

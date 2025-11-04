@@ -73,8 +73,15 @@ class QuestionsList extends Component
 
     public function delete($questionId)
     {
-        // fazer confirmação
+        $this->dialog()
+            ->question('Deseja realmente excluir esta pergunta?')
+            ->confirm(method: 'confirmed', params: $questionId)
+            ->cancel()
+            ->send();
+    }
 
+    public function confirmed($questionId)
+    {
         if (DeleteQuestionService::execute((int) $questionId)) {
             $this->toast()->success('Pergunta excluída com sucesso.')->send();
         } else {
@@ -82,19 +89,19 @@ class QuestionsList extends Component
         }
     }
 
-    public function deleteSelected()
-    {
-        if (count($this->selectedQuestions) == 0) {
-            $this->toast()->warning('Nenhuma pergunta selecionada', 'Selecione pelo menos uma pergunta para excluir.')->send();
-            return;
-        }
+    // public function deleteSelected()
+    // {
+    //     if (count($this->selectedQuestions) == 0) {
+    //         $this->toast()->warning('Nenhuma pergunta selecionada', 'Selecione pelo menos uma pergunta para excluir.')->send();
+    //         return;
+    //     }
 
-        $this->model->questions()
-            ->whereIn('id', $this->selectedQuestions)
-            ->delete();
+    //     $this->model->questions()
+    //         ->whereIn('id', $this->selectedQuestions)
+    //         ->delete();
 
-        $this->toast()->success('Perguntas excluídas com sucesso.')->send();
+    //     $this->toast()->success('Perguntas excluídas com sucesso.')->send();
 
-        $this->selectedQuestions = [];
-    }
+    //     $this->selectedQuestions = [];
+    // }
 }

@@ -26,7 +26,7 @@
         </ul>
         <x-slot:footer>
             <x-ts-button wire:click="vectorize" text="Treinar agente" :disabled="$vectorizing" sm />
-            <x-ts-button wire:click="deleteSelected" text="Excluir selecionadas" color="red" :disabled="$vectorizing" sm />
+            {{-- <x-ts-button wire:click="deleteSelected" text="Excluir selecionadas" color="red" :disabled="$vectorizing" sm /> --}}
         </x-slot>
     </x-ts-card>
 </div>

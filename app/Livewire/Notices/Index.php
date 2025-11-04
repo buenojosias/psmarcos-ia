@@ -33,7 +33,7 @@ class Index extends Component
     {
         $headers = [
             ['index' => 'notice_content', 'label' => 'Aviso'],
-            ['index' => 'v', 'label' => 'Vinculada a'],
+            ['index' => 'v', 'label' => 'Vinculado a'],
             ['index' => 'formatted_expires_at', 'label' => 'Expira em'],
             ['index' => 'action'],
         ];
