@@ -61,6 +61,10 @@
                 @anyrole(['admin', 'pascom'])
                     <x-ts-side-bar.item text="Usuários" icon="user" :route="route('users.index')" :current="request()->routeIs('users.*')" />
                 @endanyrole
+                @role('admin')
+                    <x-ts-side-bar.separator text="Avançado" line />
+                    <x-ts-side-bar.item text="Log viewer" icon="command-line" href="/log-viewer" target="_blank" />
+                @endrole
             </x-ts-side-bar>
         </x-slot:menu>
         {{ $slot }}

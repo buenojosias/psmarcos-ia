@@ -14,7 +14,7 @@ class Show extends Component
     public function mount(User $user)
     {
         $this->user = $user;
-        $this->user->load('pastorals.community');
+        $this->user->load('communities', 'pastorals.community');
         $this->roles = UserRoleEnum::cases();
     }
 

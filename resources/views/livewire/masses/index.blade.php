@@ -23,9 +23,9 @@
             @endif
         @endinteract
     </x-ts-table>
-    @hasanyrole(['admin', 'pascom', 'coordinator'])
+    @anyrole(['admin', 'pascom', 'coordinator'])
         <livewire:masses.edit @saved="$refresh" />
-    @endhasanyrole
+    @endanyrole
     @can('delete', App\Models\Mass::class)
         <livewire:masses.delete @deleted="$refresh" />
     @endcan

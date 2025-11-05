@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Models\Community;
 use App\Models\Pastoral;
 use App\Policies\CommunityPolicy;
+use App\Policies\EventPolicy;
 use App\Policies\PastoralPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,10 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->hasRole('admin')) {
                 return true;
             }
+        });
+
+        LogViewer::auth(function ($request) {
+            return $request->user()->hasRole('admin');
         });
     }
 }

@@ -20,25 +20,6 @@
         </x-ts-card>
     </div>
     <div>
-        <x-ts-card header="Grupos, movimentos e pastorais">
-            @if ($user->pastorals->isEmpty())
-                <p class="text-sm text-gray-500">Nenhum grupo, movimento ou pastoral associado.</p>
-            @else
-                <ul class="space-y-4">
-                    @foreach ($user->pastorals as $pastoral)
-                        <li>
-                            <p class="font-semibold text-gray-700 dark:text-gray-300">
-                                <a href="{{ route('pastorals.show', $pastoral) }}" class="hover:underline">
-                                    {{ $pastoral->name }}
-                                </a>
-                            </p>
-                            @if ($pastoral->community)
-                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $pastoral->community->name }}</p>
-                            @endif
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
-        </x-ts-card>
+        <livewire:users.pastorals :user="$user" />
     </div>
 </div>
