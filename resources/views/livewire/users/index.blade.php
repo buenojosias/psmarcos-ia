@@ -1,5 +1,9 @@
 <div class="space-y-4">
-    <livewire:users.create @saved="$refresh" />
+    @can('any', \App\Models\User::class)
+        <livewire:users.create @saved="$refresh" />
+    @else
+        <h2>Usuários cadastrados por você</h2>
+    @endcan
     <x-ts-table :$headers :$rows>
         @interact('column_user_name', $row)
             <a href="{{ route('users.show', $row) }}">{{ $row->name }}</a>

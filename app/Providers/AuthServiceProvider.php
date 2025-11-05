@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
         Community::class => CommunityPolicy::class,
         Pastoral::class => PastoralPolicy::class,
         Event::class => EventPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     public function register(): void

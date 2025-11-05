@@ -58,9 +58,7 @@
                     </x-ts-side-bar.item>
                 @endanyrole
                 <x-ts-side-bar.item text="Avisos" icon="bell" :route="route('notices.index')" :current="request()->routeIs('notices.*')" />
-                @anyrole(['admin', 'pascom'])
-                    <x-ts-side-bar.item text="Usuários" icon="user" :route="route('users.index')" :current="request()->routeIs('users.*')" />
-                @endanyrole
+                <x-ts-side-bar.item text="Usuários" icon="user" :route="route('users.index')" :current="request()->routeIs('users.*')" />
                 @role('admin')
                     <x-ts-side-bar.separator text="Avançado" line />
                     <x-ts-side-bar.item text="Log viewer" icon="command-line" href="/log-viewer" target="_blank" />

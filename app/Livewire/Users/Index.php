@@ -11,7 +11,12 @@ class Index extends Component
     #[Computed('users')]
     public function getUsersProperty()
     {
-        $users = User::orderBy('name')->with('parent')->get();
+        $users = User::query()
+            ->when(auth()->user()->cannot('any', User::class), fn($query) => $query->where('created_by', auth()->id()))
+            ->when(auth()->user()->can('any', User::class), fn($query) => $query->with('parent'))
+            ->orderBy('name')
+            ->get();
+
         $users->map(function ($user) {
             $user->formated_created_at = $user->created_at->format('d/m/Y');
 
@@ -26,9 +31,11 @@ class Index extends Component
         $headers = [
             ['index' => 'user_name', 'label' => 'Nome'],
             ['index' => 'user_roles', 'label' => 'Função(ões)'],
-            ['index' => 'parent.name', 'label' => 'Cadastrado por'],
             ['index' => 'formated_created_at', 'label' => 'Data do cadastro'],
         ];
+        if (auth()->user()->can('any', User::class)) {
+            $headers[] = ['index' => 'parent.name', 'label' => 'Cadastrado por'];
+        }
 
         $rows = $this->users;
 

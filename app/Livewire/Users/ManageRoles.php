@@ -17,7 +17,14 @@ class ManageRoles extends Component
     public function mount($user)
     {
         $this->user = $user;
-        $this->roles = UserRoleEnum::cases();
+        $roles = UserRoleEnum::cases();
+        if (!auth()->user()->hasRole('admin')) {
+            $this->roles = array_filter($roles, function ($role) {
+                return $role->value != 'admin';
+            });
+        } else {
+            $this->roles = UserRoleEnum::cases();
+        }
         // $this->selectedRoles = $user->roles;
 
         // normalize: garante que $raw será um array (não null)
