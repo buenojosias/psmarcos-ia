@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\DB;
 return new class extends Migration {
     protected $connection = 'pgsql';
 
+    public function shouldRun(): bool
+    {
+        return false;
+    }
+
     public function up(): void
     {
         // Garantir que a extensão pgvector está instalada
