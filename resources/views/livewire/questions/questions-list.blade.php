@@ -28,7 +28,7 @@
                 <li class="text-center text-gray-500 dark:text-gray-400">Nenhuma pergunta cadastrada.</li>
             @endforelse
         </ul>
-        @can('vectorize')
+        @can('vectorize', App\Models\Question::class)
             <x-slot:footer>
                 <x-ts-button wire:click="vectorize" text="Treinar agente" :disabled="$vectorizing" sm />
                 {{-- <x-ts-button wire:click="deleteSelected" text="Excluir selecionadas" color="red" :disabled="$vectorizing" sm /> --}}

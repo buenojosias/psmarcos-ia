@@ -1,5 +1,5 @@
 <div class="space-y-4">
-    @can('create')
+    @can('create', App\Models\Event::class)
         <livewire:events.create @saved="$refresh" />
     @endcan
     <x-ts-table :$headers :$rows>
