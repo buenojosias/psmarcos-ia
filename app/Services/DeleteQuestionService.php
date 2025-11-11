@@ -19,13 +19,24 @@ class DeleteQuestionService
         }
 
         if ($question->status->value == 'processed') {
-            \DB::connection('pgsql')->table(config('database.table_vector'))
-                ->where('doc_type', 'qa')
-                ->where('resource', $question->resource)
-                ->where('model_id', $question->id)
-                ->delete();
+            self::deleteEmbeded($question);
         }
 
         return $question->delete();
+    }
+
+    static public function deleteEmbeded($question)
+    {
+        try {
+            \DB::connection('pgsql')->table(config('database.table_vector'))
+                ->where('doc_type', 'qa')
+                ->where('resource', $question->questionable_type)
+                ->where('model_id', $question->id)
+                ->delete();
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

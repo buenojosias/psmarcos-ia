@@ -4,10 +4,12 @@ namespace App\Livewire\Pastorals;
 
 use App\Models\Pastoral;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class Index extends Component
 {
+    #[Url(as: 'todas')]
     public bool $showAll = false;
 
     #[Computed('pastorals')]

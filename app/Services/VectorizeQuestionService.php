@@ -9,7 +9,7 @@ class VectorizeQuestionService
         $batchPayload['resource'] = $resource;
         $batchPayload['name'] = $model['name'];
         $batchPayload['model_id'] = $question['id'];
-        $batchPayload['doc_type'] = 'mass_data';
+        $batchPayload['doc_type'] = 'qa';
         $batchPayload['question'] = $question['question'];
         $batchPayload['answer'] = $question['answer'];
         $batchPayload['text'] = "**Pergunta:** {$question['question']}** \n **Resposta:** {$question['answer']}";
