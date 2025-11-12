@@ -34,8 +34,6 @@ class Index extends Component
         return $pastorals;
     }
 
-
-
     public function render()
     {
         $headers = [
