@@ -7,6 +7,8 @@ use App\Models\Pastoral;
 use App\Policies\CommunityPolicy;
 use App\Policies\EventPolicy;
 use App\Policies\PastoralPolicy;
+use App\Policies\QuestionPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Opcodes\LogViewer\Facades\LogViewer;
