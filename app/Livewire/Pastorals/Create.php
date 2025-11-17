@@ -48,7 +48,7 @@ class Create extends Component
     public function save()
     {
         $data = $this->validate([
-            'name' => 'required|string|max:130',
+            'name' => 'required|string|max:130|unique:pastorals,name',
             'user_id' => 'nullable|exists:users,id',
             'community_id' => 'nullable|exists:communities,id',
             'description' => 'nullable|string',
