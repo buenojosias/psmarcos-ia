@@ -35,14 +35,8 @@ class DeleteQuestionService
                 ->first();
 
             return $doc->delete();
-            // \DB::connection('pgsql')->table(config('database.table_vector'))
-            //     ->where('doc_type', 'qa')
-            //     ->where('resource', $question->questionable_type)
-            //     ->where('model_id', $question->id)
-            //     ->delete();
-
-            // return true;
         } catch (\Exception $e) {
+            \Log::error('Error deleting embedded document for question ID ' . $question->id . ': ' . $e->getMessage());
             return false;
         }
     }

@@ -24,7 +24,8 @@
                             @if ($this->event->eventable)
                                 {{ $this->event->eventable->name }}
                                 <a href="{{ route($route_name, $this->event->eventable) }}">
-                                    <x-ts-icon name="arrow-top-right-on-square" class="w-3 h-3 ml-1 inline text-gray-700 dark:text-gray-300" />
+                                    <x-ts-icon name="arrow-top-right-on-square"
+                                        class="w-3 h-3 ml-1 inline text-gray-700 dark:text-gray-300" />
                                 </a>
                             @else
                                 Não informado
@@ -46,7 +47,12 @@
                 </x-slot>
             </x-ts-card>
         </div>
-        <livewire:notices.list-notices resource="event" :model="$this->event" />
+        <div class="space-y-4">
+            <livewire:notices.list-notices resource="event" :model="$this->event" />
+            @can('manage', $this->event)
+                <livewire:events.delete :event="$this->event" />
+            @endcan
+        </div>
         {{-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         <x-ts-stats title="Perguntas cadastradas" :number="$this->event->questions_count" :href="route('pastorals.questions', $this->event)" />
             <x-ts-stats title="Eventos" :number="$this->event->events_count" :href="route('pastorals.events', $this->event)" />
