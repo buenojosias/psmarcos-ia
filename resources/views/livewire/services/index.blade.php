@@ -16,9 +16,6 @@
                 <div>
                     <x-ts-button icon="question-mark-circle" :href="route('services.questions', $service->alias)" flat />
                     <x-ts-button icon="calendar" :href="route('services.events', $service->alias)" flat />
-                    @can('edit', $service)
-                        <x-ts-button icon="pencil" flat />
-                    @endcan
                 </div>
             </x-ts-card>
         @endforeach

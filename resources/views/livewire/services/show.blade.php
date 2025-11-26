@@ -9,11 +9,11 @@
                         {{ $this->service->description ?? 'Descrição não adicionada' }}
                     </div>
                 </div>
-                {{-- @can('edit', $this->pastoral)
+                @can('edit', $this->service)
                     <x-slot:footer>
-                        <livewire:pastorals.edit :pastoral="$this->pastoral" @saved="$refresh" />
+                        <livewire:services.edit :service="$this->service" @saved="$refresh" />
                     </x-slot>
-                @endcan --}}
+                @endcan
             </x-ts-card>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
