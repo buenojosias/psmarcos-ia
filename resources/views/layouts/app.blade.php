@@ -51,6 +51,7 @@
                 <x-ts-side-bar.item text="Grupos, movimentos e pastorais" icon="user-group" :route="route('pastorals.index')"
                     :current="request()->routeIs('pastorals.*')" />
                 <x-ts-side-bar.item text="Eventos" icon="calendar" :route="route('events.index')" :current="request()->routeIs('events.*')" />
+                <x-ts-side-bar.item text="Serviços" icon="folder" :route="route('services.index')" :current="request()->routeIs('services.*')" />
                 @anyrole(['admin', 'pascom'])
                     <x-ts-side-bar.item text="Perguntas e respostas" icon="question-mark-circle" :current="request()->routeIs('questions.*')">
                         <x-ts-side-bar.item text="Cadastradas" icon="list-bullet" :route="route('questions.index')" :current="request()->routeIs('questions.index')" />

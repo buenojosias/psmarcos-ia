@@ -7,7 +7,8 @@ use App\Models\User;
 
 class EventPolicy
 {
-    public function __construct() {
+    public function __construct()
+    {
         //
     }
 
@@ -22,6 +23,10 @@ class EventPolicy
             return true;
         }
 
+        if ($event->eventable_type === 'service') {
+            return $user->hasRole('secretary');
+        }
+
         return $event->eventable?->users->contains($user);
     }
 
@@ -29,6 +34,10 @@ class EventPolicy
     {
         if ($user->hasRole('pascom')) {
             return true;
+        }
+
+        if ($event->eventable_type === 'service') {
+            return $user->hasRole('secretary');
         }
 
         return $event->eventable?->users->contains($user);

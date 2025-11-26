@@ -29,11 +29,22 @@ class AppServiceProvider extends ServiceProvider
             'pastoral' => \App\Models\Pastoral::class,
             'event' => \App\Models\Event::class,
             'mass' => \App\Models\Mass::class,
+            'service' => \App\Models\Service::class,
         ]);
 
         TallStackUi::personalize()
             ->layout()
             ->block('main', 'mx-auto max-w-full p-4 md:p-6');
+
+        TallStackUi::personalize()
+            ->sideBar('item')
+            ->block('item.icon')
+            ->replace('h-6 w-6', 'h-5 w-5');
+
+        TallStackUi::personalize()
+            ->sideBar('separator')
+            ->block('line.base')
+            ->replace('text-base', 'text-xs');
 
         TallStackUi::personalize()
             ->table()
