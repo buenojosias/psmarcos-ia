@@ -8,7 +8,7 @@
                 <x-ts-select.native label="Comunidade" wire:model="community_id" wire:key="{{ now() }}" :options="$communities"
                     select="label:name|value:id" />
             @endif
-            <x-ts-select.native label="Coordenador(a)" wire:model="user_id" :options="$users"
+            <x-ts-select.native label="Usuário" wire:model="user_id" :options="$users"
                 select="label:name|value:id" />
             <x-ts-textarea label="Descrição" wire:model="description" required resize-auto />
         </form>
